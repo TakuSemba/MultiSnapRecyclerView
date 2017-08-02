@@ -13,8 +13,6 @@ dependencies {
 
 ```
 
-## Feature
-
 <img src="https://github.com/TakuSemba/MultiSnapRecyclerView/blob/master/arts/gravity.gif" align="left" width="300">
 
 ## Gravity
@@ -35,6 +33,10 @@ MultiSnapRecyclerView supports `start` `end` and `center` gravitated snapping.
 <br/>
 <br/>
 <br/>
+<br/>
+<br/>
+
+
 <br/>
 <br/>
 
