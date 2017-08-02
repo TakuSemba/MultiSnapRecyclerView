@@ -15,7 +15,7 @@ dependencies {
 
 <img src="https://github.com/TakuSemba/MultiSnapRecyclerView/blob/master/arts/gravity.gif" align="left" width="300">
 
-## Gravity
+## Feature1: Gravity
 MultiSnapRecyclerView supports `start` `end` and `center` gravitated snapping.
 <br/>
 <br/>
@@ -42,7 +42,7 @@ MultiSnapRecyclerView supports `start` `end` and `center` gravitated snapping.
 
 <img src="https://github.com/TakuSemba/MultiSnapRecyclerView/blob/master/arts/snap_count.gif" align="right" width="300">
 
-## Snap Count
+## Feature2: Snap Count
 MultiSnapRecyclerView supports Snap Count to spefify the number of items to scroll over.
 <br/>
 <br/>
