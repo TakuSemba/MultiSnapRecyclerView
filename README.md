@@ -7,52 +7,66 @@
 ```groovy
 
 dependencies {
-    compile 'com.github.takusemba:multisnaprecyclerview:1.0.3'
+    compile 'com.github.takusemba:multisnaprecyclerview:1.0.0'
 }
-
 
 ```
 
-<img src="https://github.com/TakuSemba/MultiSnapRecyclerView/blob/master/arts/gravity.gif" align="left" width="300">
+<img src="https://github.com/TakuSemba/MultiSnapRecyclerView/blob/master/arts/gravity.gif" align="right" width="300">
 
-## Features
+# Features
+![Platform](http://img.shields.io/badge/platform-android-green.svg?style=flat)
+[![Download](https://api.bintray.com/packages/takusemba/maven/spotlight/images/download.svg) ](https://bintray.com/takusemba/maven/spotlight/_latestVersion) 
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+![API](https://img.shields.io/badge/API-11%2B-brightgreen.svg?style=flat)
 
 This is an Android Library for multiple snapping of RecyclerView.
-    - [x] supports `start` `end` and `center` gravitated snapping.
-    - [x] supports `snap count` to spefify the number of items to scroll over.
-    - [x] supports horizontal and vertical scrolling
+MultiSnapRecyclerView easily provides a snapping feature to your recycler view. 
+What this does are clean, neat, and powerful.
+<br/>
+- [x] `start` `end` and `center` gravitated snapping.
+- [x] `snap count` to spefify the number of items to scroll over.
+- [x] supports horizontal and vertical scrolling.
+- [x] listener to be called when snapped.
+- [x] sample code
+- [ ] support reverse layout
+- [ ] test code
 
-make sure to use LinearManger. other managers are not supported.
+<strong>Make sure to use LinearManger.</strong> Other managers are not supported.
 
 <br/>
 <br/>
 <br/>
 <br/>
-<br/>
-<br/>
 
-<img src="https://github.com/TakuSemba/MultiSnapRecyclerView/blob/master/arts/snap_count.gif" align="right" width="300">
+<img src="https://github.com/TakuSemba/MultiSnapRecyclerView/blob/master/arts/snap_count.gif" align="left" width="300">
 
-## Usage
-MultiSnapRecyclerView supports Snap Count to spefify the number of items to scroll over.
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
+# Usage
+Use MultiSnapRecyclerView in your xml file.
+
+```xml
+<com.takusemba.multisnaprecyclerview.MultiSnapRecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:msrv_gravity="start" or center, end
+        app:msrv_snap_count="2" /> items to scroll over
+
+```
+
+and simply set a layout manager.
+
+```java
+LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+multiSnapRecyclerView.setLayoutManager(layoutManager);
+multiSnapRecyclerView.setAdapter(adapter);
+multiSnapRecyclerView.setOnSnapListener(new OnSnapListener() {
+    @Override
+    public void snapped() {
+        // do something
+    }
+});
+```
+
 <br/>
 <br/>
 
