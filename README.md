@@ -15,26 +15,14 @@ dependencies {
 
 <img src="https://github.com/TakuSemba/MultiSnapRecyclerView/blob/master/arts/gravity.gif" align="left" width="300">
 
-## Feature1: Gravity
-MultiSnapRecyclerView supports `start` `end` and `center` gravitated snapping.
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
+## Features
+
+This is an Android Library for multiple snapping of RecyclerView.
+- [x] supports `start` `end` and `center` gravitated snapping.
+- [x] supports `snap count` to spefify the number of items to scroll over.
+- [x] supports horizontal and vertical scrolling
+
+make sure to use LinearManger. other managers are not supported.
 
 
 <br/>
@@ -42,7 +30,7 @@ MultiSnapRecyclerView supports `start` `end` and `center` gravitated snapping.
 
 <img src="https://github.com/TakuSemba/MultiSnapRecyclerView/blob/master/arts/snap_count.gif" align="right" width="300">
 
-## Feature2: Snap Count
+## usage
 MultiSnapRecyclerView supports Snap Count to spefify the number of items to scroll over.
 <br/>
 <br/>
