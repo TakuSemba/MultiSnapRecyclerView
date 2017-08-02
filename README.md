@@ -11,10 +11,11 @@ dependencies {
 }
 
 ```
+<br/>
 
 <img src="https://github.com/TakuSemba/MultiSnapRecyclerView/blob/master/arts/gravity.gif" align="right" width="300">
 
-# Features
+## Features
 ![Platform](http://img.shields.io/badge/platform-android-green.svg?style=flat)
 [![Download](https://api.bintray.com/packages/takusemba/maven/spotlight/images/download.svg) ](https://bintray.com/takusemba/maven/spotlight/_latestVersion) 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
@@ -24,8 +25,8 @@ This is an Android Library for multiple snapping of RecyclerView.
 MultiSnapRecyclerView easily provides a snapping feature to your recycler view. 
 What this does are clean, neat, and powerful.
 <br/>
-- [x] `start` `end` and `center` gravitated snapping.
-- [x] `snap count` to spefify the number of items to scroll over.
+- [x] gravitated snapping to `start` `end` and `center`.
+- [x] `snap count` to specify the number of items to scroll over.
 - [x] supports horizontal and vertical scrolling.
 - [x] listener to be called when snapped.
 - [x] sample code
@@ -41,7 +42,7 @@ What this does are clean, neat, and powerful.
 
 <img src="https://github.com/TakuSemba/MultiSnapRecyclerView/blob/master/arts/snap_count.gif" align="left" width="300">
 
-# Usage
+## Usage
 Use MultiSnapRecyclerView in your xml file.
 
 ```xml
