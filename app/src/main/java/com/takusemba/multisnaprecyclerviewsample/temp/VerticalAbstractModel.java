@@ -1,4 +1,4 @@
-package com.takusemba.multisnaprecyclerviewsample;
+package com.takusemba.multisnaprecyclerviewsample.temp;
 
 public class VerticalAbstractModel {
 

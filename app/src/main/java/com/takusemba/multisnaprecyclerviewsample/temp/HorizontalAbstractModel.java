@@ -1,4 +1,4 @@
-package com.takusemba.multisnaprecyclerviewsample;
+package com.takusemba.multisnaprecyclerviewsample.temp;
 
 import java.util.ArrayList;
 

@@ -1,4 +1,4 @@
-package com.takusemba.multisnaprecyclerviewsample;
+package com.takusemba.multisnaprecyclerviewsample.temp;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.takusemba.multisnaprecyclerviewsample.R;
 
 import java.util.ArrayList;
 

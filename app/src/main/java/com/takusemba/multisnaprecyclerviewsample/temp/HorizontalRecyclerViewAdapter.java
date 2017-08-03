@@ -1,4 +1,4 @@
-package com.takusemba.multisnaprecyclerviewsample;
+package com.takusemba.multisnaprecyclerviewsample.temp;
 
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.takusemba.multisnaprecyclerview.MultiSnapRecyclerView;
 import com.takusemba.multisnaprecyclerview.OnSnapListener;
+import com.takusemba.multisnaprecyclerviewsample.R;
 
 import java.util.ArrayList;
 

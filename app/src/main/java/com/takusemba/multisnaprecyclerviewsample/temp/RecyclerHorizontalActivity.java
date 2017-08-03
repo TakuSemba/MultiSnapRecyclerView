@@ -1,4 +1,4 @@
-package com.takusemba.multisnaprecyclerviewsample;
+package com.takusemba.multisnaprecyclerviewsample.temp;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -6,12 +6,11 @@ import android.os.Bundle;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
 
 import java.util.ArrayList;
 
 
-import android.widget.Toast;
+import com.takusemba.multisnaprecyclerviewsample.R;
 
 
 public class RecyclerHorizontalActivity extends AppCompatActivity {
@@ -93,25 +92,6 @@ public class RecyclerHorizontalActivity extends AppCompatActivity {
 
         recyclerView.setAdapter(mAdapter);
 
-
-        mAdapter.SetOnMoreClickListener(new HorizontalRecyclerViewAdapter.OnMoreClickListener() {
-            @Override
-            public void onMoreClick(View view, int position, HorizontalAbstractModel model) {
-                Toast.makeText(RecyclerHorizontalActivity.this, "See more " + position, Toast.LENGTH_SHORT).show();
-
-            }
-        });
-
-        mAdapter.SetOnItemClickListener(new HorizontalRecyclerViewAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int absolutePosition, int relativePosition, HorizontalAbstractModel model) {
-
-                //handle item click events here
-                Toast.makeText(RecyclerHorizontalActivity.this, "Absolute Pos: " + absolutePosition
-                        + " Relative Pos: " + relativePosition, Toast.LENGTH_SHORT).show();
-
-            }
-        });
 
 
     }
