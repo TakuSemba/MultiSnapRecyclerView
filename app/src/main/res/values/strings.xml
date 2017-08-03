@@ -1,7 +1,3 @@
 <resources>
     <string name="app_name">MultiSnapRecyclerView</string>
-    <string name="title_activity_recycler">RecyclerActivity</string>
-
-    <string name="hello_world">Hello world!</string>
-    <string name="title_activity_recycler_horizontal">RecyclerHorizontalActivity</string>
 </resources>

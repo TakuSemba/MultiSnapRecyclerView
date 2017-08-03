@@ -18,7 +18,6 @@
         android:padding="16dp">
 
         <ImageView
-            android:id="@+id/item_card_img"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:scaleType="fitCenter"
@@ -26,12 +25,11 @@
 
 
         <TextView
-            android:id="@+id/item_card_txt_title"
+            android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:gravity="center"
-            android:text="Sample title"
             android:textColor="@android:color/black"
             android:textSize="14sp" />
 
