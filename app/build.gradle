@@ -1,14 +1,16 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion "26.0.1"
+    compileSdkVersion COMPILE_SDK_VERSION as int
+    buildToolsVersion BUILD_TOOLS_VERSION
     defaultConfig {
-        minSdkVersion 21
-        targetSdkVersion 26
-        versionCode 1
-        versionName "1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        applicationId "com.takusemba.multisnaprecyclerviewsample"
+
+        minSdkVersion MIN_SDK_VERSION as int
+        targetSdkVersion TARGET_SDK_VERSION as int
+        versionCode LIBRARY_VERSION_CODE as int
+        versionName LIBRARY_VERSION_NAME
+
     }
     buildTypes {
         release {
@@ -19,10 +21,8 @@ android {
 }
 
 dependencies {
+    compile "com.android.support:appcompat-v7:$APP_COMPAT_VERSION"
+    compile "com.android.support:recyclerview-v7:$APP_COMPAT_VERSION"
+    compile "com.android.support:cardview-v7:$APP_COMPAT_VERSION"
     compile project(':multisnaprecyclerview')
-    compile 'com.android.support:appcompat-v7:26.0.0'
-    compile 'com.android.support:recyclerview-v7:26.0.0'
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile 'com.android.support:cardview-v7:26.0.0'
-    compile 'de.hdodenhof:circleimageview:2.1.0'
 }
