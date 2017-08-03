@@ -95,12 +95,12 @@ abstract class SnapHelperDelegator extends BaseSnapHelperDelegator {
 
     @Override
     int findTargetSnapPosition(RecyclerView.LayoutManager layoutManager, int velocityX, int velocityY) {
+        boolean forwardDirection = layoutManager.canScrollHorizontally() ? velocityX > 0 : velocityY > 0;
+
         if (previousClosestPosition == RecyclerView.NO_POSITION) {
             View view = findSnapView(layoutManager);
-            return layoutManager.getPosition(view);
+            return layoutManager.getPosition(view) + snapCount;
         }
-
-        boolean forwardDirection = layoutManager.canScrollHorizontally() ? velocityX > 0 : velocityY > 0;
         if (forwardDirection) {
             for (int i = 1; i <= snapCount; i++) {
                 if ((previousClosestPosition + i) % snapCount == 0) {
