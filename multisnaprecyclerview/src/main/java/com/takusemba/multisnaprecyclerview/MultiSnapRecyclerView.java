@@ -47,6 +47,9 @@ public class MultiSnapRecyclerView extends RecyclerView {
         if (!(getLayoutManager() instanceof LinearLayoutManager)) {
             throw new IllegalArgumentException("other than LinearLayoutManger is not supported");
         }
+        if (((LinearLayoutManager) getLayoutManager()).getReverseLayout()) {
+            throw new IllegalArgumentException("reverse layout is not supported");
+        }
         removeOnScrollListener(onScrollListener);
         onScrollListener = new OnScrollListener() {
             @Override

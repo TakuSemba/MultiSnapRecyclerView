@@ -1,7 +1,6 @@
 package com.takusemba.multisnaprecyclerview;
 
 import android.support.annotation.NonNull;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -45,35 +44,32 @@ abstract class SnapHelperDelegator extends BaseSnapHelperDelegator {
 
     @Override
     View findSnapView(RecyclerView.LayoutManager layoutManager) {
-        final OrientationHelper helper = layoutManager.canScrollHorizontally()
+        OrientationHelper helper = layoutManager.canScrollHorizontally()
                 ? OrientationHelper.createHorizontalHelper(layoutManager)
                 : OrientationHelper.createVerticalHelper(layoutManager);
-        final int containerPosition = getContainerPosition(layoutManager, helper);
-        final int childCount = layoutManager.getChildCount();
-        final boolean isReverseLayout = ((LinearLayoutManager) layoutManager).getReverseLayout();
-        final int startPosition = isReverseLayout ? layoutManager.getItemCount() - 1 : 0;
-        final int endPosition = isReverseLayout ? 0 : layoutManager.getItemCount() - 1;
+        int childCount = layoutManager.getChildCount();
+        if (childCount == 0) return null;
 
         View closestChild = null;
         int closestPosition = RecyclerView.NO_POSITION;
+        final int containerPosition = getContainerPosition(layoutManager, helper);
         int absClosest = Integer.MAX_VALUE;
 
-        if (childCount == 0) return null;
         for (int i = 0; i < childCount; i++) {
             final View child = layoutManager.getChildAt(i);
             int childPosition = getChildPosition(child, helper);
             int absDistance = Math.abs(childPosition - containerPosition);
             if (helper.getDecoratedStart(child) == 0
-                    && previousClosestPosition != startPosition
-                    && layoutManager.getPosition(child) == startPosition) {
+                    && previousClosestPosition != 0
+                    && layoutManager.getPosition(child) == 0) {
                 //RecyclerView reached start
                 closestChild = child;
                 closestPosition = layoutManager.getPosition(closestChild);
                 break;
             }
             if (helper.getDecoratedEnd(child) == helper.getTotalSpace()
-                    && previousClosestPosition != endPosition
-                    && layoutManager.getPosition(child) == endPosition) {
+                    && previousClosestPosition != layoutManager.getItemCount() - 1
+                    && layoutManager.getPosition(child) == layoutManager.getItemCount() - 1) {
                 //RecyclerView reached end
                 closestChild = child;
                 closestPosition = layoutManager.getPosition(closestChild);
@@ -93,22 +89,18 @@ abstract class SnapHelperDelegator extends BaseSnapHelperDelegator {
                 closestPosition = layoutManager.getPosition(closestChild);
             }
         }
-        previousClosestPosition = closestPosition == RecyclerView.NO_POSITION
-                ? previousClosestPosition
-                : closestPosition;
+        previousClosestPosition = closestPosition == RecyclerView.NO_POSITION ? previousClosestPosition : closestPosition;
         return closestChild;
     }
 
     @Override
     int findTargetSnapPosition(RecyclerView.LayoutManager layoutManager, int velocityX, int velocityY) {
-        final boolean isReverseLayout = ((LinearLayoutManager) layoutManager).getReverseLayout();
         if (previousClosestPosition == RecyclerView.NO_POSITION) {
             View view = findSnapView(layoutManager);
             return layoutManager.getPosition(view);
         }
 
         boolean forwardDirection = layoutManager.canScrollHorizontally() ? velocityX > 0 : velocityY > 0;
-        forwardDirection = isReverseLayout != forwardDirection;
         if (forwardDirection) {
             for (int i = 1; i <= snapCount; i++) {
                 if ((previousClosestPosition + i) % snapCount == 0) {
@@ -122,10 +114,7 @@ abstract class SnapHelperDelegator extends BaseSnapHelperDelegator {
                 }
             }
         }
-        int targetSnapPosition = forwardDirection
-                ? previousClosestPosition + snapCount
-                : previousClosestPosition - snapCount;
-        return isReverseLayout ? layoutManager.getItemCount() - targetSnapPosition : targetSnapPosition;
+        return forwardDirection ? previousClosestPosition + snapCount : previousClosestPosition - snapCount;
     }
 
     /**
