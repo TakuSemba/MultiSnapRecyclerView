@@ -59,7 +59,7 @@ public class HorizontalRecyclerViewAdapter extends RecyclerView.Adapter<Horizont
         HorizontalSingleItemListAdapter itemListDataAdapter = new HorizontalSingleItemListAdapter(mContext, singleSectionItems);
 
         holder.recyclerViewHorizontalList.setHasFixedSize(true);
-        holder.recyclerViewHorizontalList.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
+        holder.recyclerViewHorizontalList.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, true));
         holder.recyclerViewHorizontalList.setAdapter(itemListDataAdapter);
         holder.recyclerViewHorizontalList.setOnSnapListener(new OnSnapListener() {
             @Override
