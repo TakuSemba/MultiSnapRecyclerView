@@ -41,7 +41,7 @@ class EndSnapHelperDelegator extends SnapHelperDelegator {
     }
 
     @Override
-    boolean isCompletelyInside(View targetView, RecyclerView.LayoutManager layoutManager, OrientationHelper helper) {
+    boolean shouldSkipTarget(View targetView, RecyclerView.LayoutManager layoutManager, OrientationHelper helper, boolean forwardDirection) {
         return getDistance(layoutManager, targetView, helper) < 0;
     }
 }

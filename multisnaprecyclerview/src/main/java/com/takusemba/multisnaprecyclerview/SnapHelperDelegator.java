@@ -107,7 +107,7 @@ abstract class SnapHelperDelegator extends BaseSnapHelperDelegator {
                 for (int i = 1; i <= layoutManager.getItemCount(); i++) {
                     if ((previousClosestPosition + i) % snapCount == 0) {
                         View view = layoutManager.findViewByPosition(previousClosestPosition + i);
-                        if (view != null && isCompletelyInside(view, layoutManager, helper)) {
+                        if (view != null && shouldSkipTarget(view, layoutManager, helper, forwardDirection)) {
                             continue;
                         }
                         return previousClosestPosition + i;
@@ -117,7 +117,7 @@ abstract class SnapHelperDelegator extends BaseSnapHelperDelegator {
                 for (int i = 1; i <= layoutManager.getItemCount(); i++) {
                     if ((previousClosestPosition - i) % snapCount == 0) {
                         View view = layoutManager.findViewByPosition(previousClosestPosition - i);
-                        if (view != null && isCompletelyInside(view, layoutManager, helper)) {
+                        if (view != null && shouldSkipTarget(view, layoutManager, helper, forwardDirection)) {
                             continue;
                         }
                         return previousClosestPosition - i;
@@ -125,7 +125,6 @@ abstract class SnapHelperDelegator extends BaseSnapHelperDelegator {
                 }
             }
         }
-
         return forwardDirection ? previousClosestPosition + snapCount : previousClosestPosition - snapCount;
     }
 
@@ -153,10 +152,10 @@ abstract class SnapHelperDelegator extends BaseSnapHelperDelegator {
     abstract int getChildPosition(View targetView, OrientationHelper helper);
 
     /**
-     * check if the view is completely visible or not
+     * check if the view should be skipped or not
      *
-     * @return true if the view is completely visible, otherwise false
+     * @return true if the view should be skipped, otherwise false
      */
-    abstract boolean isCompletelyInside(View targetView, RecyclerView.LayoutManager layoutManager, OrientationHelper helper);
+    abstract boolean shouldSkipTarget(View targetView, RecyclerView.LayoutManager layoutManager, OrientationHelper helper, boolean forwardDirection);
 
 }
