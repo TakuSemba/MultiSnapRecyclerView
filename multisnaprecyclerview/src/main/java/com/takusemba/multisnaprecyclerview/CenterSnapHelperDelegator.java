@@ -26,7 +26,7 @@ class CenterSnapHelperDelegator extends SnapHelperDelegator {
     int getDistance(RecyclerView.LayoutManager layoutManager, View targetView, OrientationHelper helper) {
         final int childCenter = getChildPosition(targetView, helper);
         final int containerCenter = getContainerPosition(layoutManager, helper);
-        return Math.abs(childCenter - containerCenter);
+        return childCenter - containerCenter;
     }
 
     @Override

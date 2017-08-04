@@ -140,4 +140,6 @@ abstract class SnapHelperDelegator extends BaseSnapHelperDelegator {
      */
     abstract int getChildPosition(View targetView, OrientationHelper helper);
 
+    abstract boolean isCompletelyInside(View targetView, RecyclerView.LayoutManager layoutManager, OrientationHelper helper);
+
 }
