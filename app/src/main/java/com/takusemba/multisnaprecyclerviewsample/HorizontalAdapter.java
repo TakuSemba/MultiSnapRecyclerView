@@ -40,7 +40,7 @@ public class HorizontalAdapter extends RecyclerView.Adapter<HorizontalAdapter.Vi
 
         ViewHolder(final View itemView) {
             super(itemView);
-            this.title = itemView.findViewById(R.id.title);
+            this.title = (TextView) itemView.findViewById(R.id.title);
         }
     }
 }

@@ -43,8 +43,8 @@ public class VerticalAdapter extends RecyclerView.Adapter<VerticalAdapter.ViewHo
 
         ViewHolder(final View itemView) {
             super(itemView);
-            this.title = itemView.findViewById(R.id.title);
-            this.description = itemView.findViewById(R.id.description);
+            this.title = (TextView) itemView.findViewById(R.id.title);
+            this.description = (TextView) itemView.findViewById(R.id.description);
         }
     }
 }
