@@ -26,7 +26,7 @@ class CenterSnapHelperDelegator extends SnapHelperDelegator {
     int getDistance(RecyclerView.LayoutManager layoutManager, View targetView, OrientationHelper helper) {
         final int childCenter = getChildPosition(targetView, helper);
         final int containerCenter = getContainerPosition(layoutManager, helper);
-        return childCenter - containerCenter;
+        return Math.abs(childCenter - containerCenter);
     }
 
     @Override
@@ -39,5 +39,10 @@ class CenterSnapHelperDelegator extends SnapHelperDelegator {
     @Override
     int getChildPosition(View targetView, OrientationHelper helper) {
         return helper.getDecoratedStart(targetView) + (helper.getDecoratedMeasurement(targetView) / 2);
+    }
+
+    @Override
+    boolean isCompletelyInside(View targetView, RecyclerView.LayoutManager layoutManager, OrientationHelper helper) {
+        return targetView.getWidth() < layoutManager.getWidth();
     }
 }
