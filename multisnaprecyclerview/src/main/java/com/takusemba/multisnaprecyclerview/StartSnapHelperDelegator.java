@@ -20,6 +20,7 @@ class StartSnapHelperDelegator extends SnapHelperDelegator {
      */
     StartSnapHelperDelegator(int snapCount) {
         super(snapCount);
+        setIsCompletelySet(true);
     }
 
     @Override

@@ -19,6 +19,7 @@ class EndSnapHelperDelegator extends SnapHelperDelegator {
      */
     EndSnapHelperDelegator(int snapCount) {
         super(snapCount);
+        setIsCompletelySet(false);
     }
 
     @Override

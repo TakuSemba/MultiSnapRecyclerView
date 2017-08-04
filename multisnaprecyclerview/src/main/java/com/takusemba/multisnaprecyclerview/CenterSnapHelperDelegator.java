@@ -20,6 +20,7 @@ class CenterSnapHelperDelegator extends SnapHelperDelegator {
      */
     CenterSnapHelperDelegator(int snapCount) {
         super(snapCount);
+        setIsCompletelySet(false);
     }
 
     @Override

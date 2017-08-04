@@ -3,6 +3,7 @@ package com.takusemba.multisnaprecyclerview;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 
 /**
@@ -23,7 +24,8 @@ abstract class SnapHelperDelegator extends BaseSnapHelperDelegator {
     }
 
     private int snapCount;
-    private int previousClosestPosition = RecyclerView.NO_POSITION;
+    private int previousClosestPosition = 0;
+    private boolean isCompletelyset;
 
     @Override
     int[] calculateDistanceToFinalSnap(@NonNull RecyclerView.LayoutManager layoutManager, @NonNull View targetView) {
@@ -75,7 +77,7 @@ abstract class SnapHelperDelegator extends BaseSnapHelperDelegator {
                 closestPosition = layoutManager.getPosition(closestChild);
                 break;
             }
-            if (previousClosestPosition == layoutManager.getPosition(child) && containerPosition == childPosition) {
+            if (previousClosestPosition == layoutManager.getPosition(child) && getDistance(layoutManager, child, helper) == 0) {
                 //child is already set to the position.
                 closestChild = child;
                 break;
@@ -90,30 +92,47 @@ abstract class SnapHelperDelegator extends BaseSnapHelperDelegator {
             }
         }
         previousClosestPosition = closestPosition == RecyclerView.NO_POSITION ? previousClosestPosition : closestPosition;
+        isCompletelyset = getDistance(layoutManager, closestChild, helper) == 0;
+        Log.d("mydebug", "isCompletelyset: " + isCompletelyset);
         return closestChild;
     }
 
     @Override
     int findTargetSnapPosition(RecyclerView.LayoutManager layoutManager, int velocityX, int velocityY) {
+        OrientationHelper helper = layoutManager.canScrollHorizontally()
+                ? OrientationHelper.createHorizontalHelper(layoutManager)
+                : OrientationHelper.createVerticalHelper(layoutManager);
         boolean forwardDirection = layoutManager.canScrollHorizontally() ? velocityX > 0 : velocityY > 0;
 
-        if (previousClosestPosition == RecyclerView.NO_POSITION) {
-            View view = findSnapView(layoutManager);
-            return layoutManager.getPosition(view) + snapCount;
-        }
-        if (forwardDirection) {
-            for (int i = 1; i <= snapCount; i++) {
-                if ((previousClosestPosition + i) % snapCount == 0) {
-                    return previousClosestPosition + i;
+//        if (previousClosestPosition == RecyclerView.NO_POSITION) {
+//            View view = findSnapView(layoutManager);
+//            return layoutManager.getPosition(view) + snapCount;
+//        }
+
+        if (!isCompletelyset) {
+            if (forwardDirection) {
+                for (int i = 1; i <= layoutManager.getItemCount(); i++) {
+                    if ((previousClosestPosition + i) % snapCount == 0) {
+                        View view = layoutManager.findViewByPosition(previousClosestPosition + i);
+                        if (view != null && isCompletelyInside(view, layoutManager, helper)) {
+                            continue;
+                        }
+                        return previousClosestPosition + i;
+                    }
+                }
+            } else {
+                for (int i = 1; i <= layoutManager.getItemCount(); i++) {
+                    if ((previousClosestPosition - i) % snapCount == 0) {
+                        View view = layoutManager.findViewByPosition(previousClosestPosition - i);
+                        if (view != null && isCompletelyInside(view, layoutManager, helper)) {
+                            continue;
+                        }
+                        return previousClosestPosition - i;
+                    }
                 }
             }
-        } else {
-            for (int i = 1; i <= snapCount; i++) {
-                if ((previousClosestPosition - i) % snapCount == 0) {
-                    return previousClosestPosition - i;
-                }
-            }
         }
+
         return forwardDirection ? previousClosestPosition + snapCount : previousClosestPosition - snapCount;
     }
 
@@ -141,5 +160,9 @@ abstract class SnapHelperDelegator extends BaseSnapHelperDelegator {
     abstract int getChildPosition(View targetView, OrientationHelper helper);
 
     abstract boolean isCompletelyInside(View targetView, RecyclerView.LayoutManager layoutManager, OrientationHelper helper);
+
+    protected void setIsCompletelySet(boolean isCompletelySet) {
+        this.isCompletelyset = isCompletelySet;
+    }
 
 }
