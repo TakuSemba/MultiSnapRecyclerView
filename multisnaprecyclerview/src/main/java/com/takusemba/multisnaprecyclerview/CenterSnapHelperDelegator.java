@@ -19,8 +19,7 @@ class CenterSnapHelperDelegator extends SnapHelperDelegator {
      * @param snapCount the number of items to scroll over
      */
     CenterSnapHelperDelegator(int snapCount) {
-        super(snapCount);
-        setIsCompletelySet(false);
+        super(snapCount, false);
     }
 
     @Override

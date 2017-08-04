@@ -3,7 +3,6 @@ package com.takusemba.multisnaprecyclerview;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 
 /**
@@ -19,13 +18,14 @@ abstract class SnapHelperDelegator extends BaseSnapHelperDelegator {
      *
      * @param snapCount the number of items to scroll over
      */
-    SnapHelperDelegator(int snapCount) {
+    SnapHelperDelegator(int snapCount, boolean isNoOffset) {
         this.snapCount = snapCount;
+        this.isNoOffset = isNoOffset;
     }
 
     private int snapCount;
+    private boolean isNoOffset;
     private int previousClosestPosition = 0;
-    private boolean isCompletelyset;
 
     @Override
     int[] calculateDistanceToFinalSnap(@NonNull RecyclerView.LayoutManager layoutManager, @NonNull View targetView) {
@@ -92,8 +92,7 @@ abstract class SnapHelperDelegator extends BaseSnapHelperDelegator {
             }
         }
         previousClosestPosition = closestPosition == RecyclerView.NO_POSITION ? previousClosestPosition : closestPosition;
-        isCompletelyset = getDistance(layoutManager, closestChild, helper) == 0;
-        Log.d("mydebug", "isCompletelyset: " + isCompletelyset);
+        isNoOffset = getDistance(layoutManager, closestChild, helper) == 0;
         return closestChild;
     }
 
@@ -103,13 +102,7 @@ abstract class SnapHelperDelegator extends BaseSnapHelperDelegator {
                 ? OrientationHelper.createHorizontalHelper(layoutManager)
                 : OrientationHelper.createVerticalHelper(layoutManager);
         boolean forwardDirection = layoutManager.canScrollHorizontally() ? velocityX > 0 : velocityY > 0;
-
-//        if (previousClosestPosition == RecyclerView.NO_POSITION) {
-//            View view = findSnapView(layoutManager);
-//            return layoutManager.getPosition(view) + snapCount;
-//        }
-
-        if (!isCompletelyset) {
+        if (!isNoOffset) {
             if (forwardDirection) {
                 for (int i = 1; i <= layoutManager.getItemCount(); i++) {
                     if ((previousClosestPosition + i) % snapCount == 0) {
@@ -159,10 +152,11 @@ abstract class SnapHelperDelegator extends BaseSnapHelperDelegator {
      */
     abstract int getChildPosition(View targetView, OrientationHelper helper);
 
+    /**
+     * check if the view is completely visible or not
+     *
+     * @return true if the view is completely visible, otherwise false
+     */
     abstract boolean isCompletelyInside(View targetView, RecyclerView.LayoutManager layoutManager, OrientationHelper helper);
-
-    protected void setIsCompletelySet(boolean isCompletelySet) {
-        this.isCompletelyset = isCompletelySet;
-    }
 
 }

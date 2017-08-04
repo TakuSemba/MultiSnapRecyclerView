@@ -19,8 +19,7 @@ class StartSnapHelperDelegator extends SnapHelperDelegator {
      * @param snapCount the number of items to scroll over
      */
     StartSnapHelperDelegator(int snapCount) {
-        super(snapCount);
-        setIsCompletelySet(true);
+        super(snapCount, true);
     }
 
     @Override
