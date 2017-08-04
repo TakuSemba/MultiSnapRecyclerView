@@ -17,8 +17,8 @@ dependencies {
 
 ## Features
 ![Platform](http://img.shields.io/badge/platform-android-green.svg?style=flat)
-[![Download](https://api.bintray.com/packages/takusemba/maven/spotlight/images/download.svg) ](https://bintray.com/takusemba/maven/spotlight/_latestVersion) 
-[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+![Download](https://api.bintray.com/packages/takusemba/maven/multisnaprecyclerview/images/download.svg)
+![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)
 ![API](https://img.shields.io/badge/API-11%2B-brightgreen.svg?style=flat)
 
 This is an Android Library for multiple snapping of RecyclerView.
