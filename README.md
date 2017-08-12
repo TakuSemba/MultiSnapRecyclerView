@@ -6,12 +6,6 @@
 
 ```groovy
 
-// set marven url
-repositories {
-  maven { url 'https://dl.bintray.com/takusemba/maven' }
-}
-
-// compile library in dependencies
 dependencies {
     compile 'com.github.takusemba:multisnaprecyclerview:1.0.2'
 }
