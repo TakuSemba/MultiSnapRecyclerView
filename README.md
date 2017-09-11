@@ -29,9 +29,9 @@ What this does are clean, neat, and powerful.
 - [x] `snap count` to specify the number of items to scroll over.
 - [x] supports horizontal and vertical scrolling.
 - [x] listener to be called when snapped.
-- [x] sample code
-- [ ] support reverse layout
-- [ ] test code
+- [x] sample code.
+- [ ] support reverse layout.
+- [ ] test code.
 
 <strong>Make sure to use LinearManger.</strong> Other managers are not supported.
 
