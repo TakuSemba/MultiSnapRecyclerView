@@ -26,6 +26,11 @@ abstract class SnapHelperDelegator extends BaseSnapHelperDelegator {
     private int snapCount;
     private boolean isNoOffset;
     private int previousClosestPosition = 0;
+    private OnSnapListener listener;
+
+    void setListener(OnSnapListener listener){
+        this.listener = listener;
+    }
 
     @Override
     int[] calculateDistanceToFinalSnap(@NonNull RecyclerView.LayoutManager layoutManager, @NonNull View targetView) {
@@ -93,6 +98,9 @@ abstract class SnapHelperDelegator extends BaseSnapHelperDelegator {
         }
         previousClosestPosition = closestPosition == RecyclerView.NO_POSITION ? previousClosestPosition : closestPosition;
         isNoOffset = getDistance(layoutManager, closestChild, helper) == 0;
+        if (listener != null && closestPosition != RecyclerView.NO_POSITION) {
+            listener.snapped(closestPosition);
+        }
         return closestChild;
     }
 

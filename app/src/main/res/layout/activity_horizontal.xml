@@ -24,7 +24,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:text="Gravity: Start, SnapCount: 2"
+        android:text="Gravity: Center, SnapCount: 2"
         android:textSize="16sp" />
 
     <com.takusemba.multisnaprecyclerview.MultiSnapRecyclerView
@@ -33,7 +33,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:orientation="horizontal"
-        app:msrv_gravity="start"
+        app:msrv_gravity="center"
         app:msrv_snap_count="2" />
 
 

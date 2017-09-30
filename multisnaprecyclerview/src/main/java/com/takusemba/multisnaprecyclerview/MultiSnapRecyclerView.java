@@ -14,15 +14,7 @@ import android.util.AttributeSet;
 
 public class MultiSnapRecyclerView extends RecyclerView {
 
-    private SnapGravity gravity;
-    private int snapCount;
-    private OnSnapListener snapListener;
-    private OnScrollListener onScrollListener;
-
-    /**
-     * keeps track of the state of RecyclerView
-     */
-    private int state = RecyclerView.SCROLL_STATE_IDLE;
+    private MultiSnapHelper multiSnapHelper;
 
     public MultiSnapRecyclerView(Context context) {
         this(context, null);
@@ -35,9 +27,10 @@ public class MultiSnapRecyclerView extends RecyclerView {
     public MultiSnapRecyclerView(Context context, @Nullable AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.MultiSnapRecyclerView);
-        gravity = SnapGravity.valueOf(a.getInt(R.styleable.MultiSnapRecyclerView_msrv_gravity, 0));
-        snapCount = a.getInteger(R.styleable.MultiSnapRecyclerView_msrv_snap_count, 1);
+        SnapGravity gravity = SnapGravity.valueOf(a.getInt(R.styleable.MultiSnapRecyclerView_msrv_gravity, 0));
+        int snapCount = a.getInteger(R.styleable.MultiSnapRecyclerView_msrv_snap_count, 1);
         a.recycle();
+        multiSnapHelper = new MultiSnapHelper(gravity, snapCount);
     }
 
     @Override
@@ -50,27 +43,7 @@ public class MultiSnapRecyclerView extends RecyclerView {
         if (((LinearLayoutManager) getLayoutManager()).getReverseLayout()) {
             throw new IllegalArgumentException("reverse layout is not supported");
         }
-        removeOnScrollListener(onScrollListener);
-        onScrollListener = new OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-                if (state == RecyclerView.SCROLL_STATE_DRAGGING && newState == RecyclerView.SCROLL_STATE_IDLE) {
-                    if (snapListener != null) snapListener.snapped();
-                }
-                if (state == RecyclerView.SCROLL_STATE_SETTLING && newState == RecyclerView.SCROLL_STATE_IDLE) {
-                    if (snapListener != null) snapListener.snapped();
-                }
-                state = newState;
-            }
-
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-            }
-        };
-        addOnScrollListener(onScrollListener);
-        new MultiSnapHelper(gravity, snapCount).attachToRecyclerView(MultiSnapRecyclerView.this);
+        multiSnapHelper.attachToRecyclerView(MultiSnapRecyclerView.this);
     }
 
     /**
@@ -79,6 +52,6 @@ public class MultiSnapRecyclerView extends RecyclerView {
      * @param listener OnSnapListener of MultiSnapRecyclerView
      */
     public void setOnSnapListener(@NonNull final OnSnapListener listener) {
-        snapListener = listener;
+        multiSnapHelper.setListener(listener);
     }
 }

@@ -32,4 +32,11 @@ abstract class BaseSnapHelperDelegator {
      * @return the view to snap when RecyclerView is fling
      */
     abstract int findTargetSnapPosition(RecyclerView.LayoutManager layoutManager, int velocityX, int velocityY);
+
+    /**
+     * set a listener to return a position of the snapped view
+     *
+     * @param listener {@link OnSnapListener}
+     */
+    abstract void setListener(OnSnapListener listener);
 }

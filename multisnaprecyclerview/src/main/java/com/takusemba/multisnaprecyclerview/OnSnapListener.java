@@ -10,6 +10,8 @@ public interface OnSnapListener {
 
     /**
      * Called when RecyclerView is snapped
+     *
+     * @param position snapped position
      */
-    void snapped();
+    void snapped(int position);
 }

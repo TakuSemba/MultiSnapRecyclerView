@@ -54,4 +54,8 @@ class MultiSnapHelper extends SnapHelper {
     public int findTargetSnapPosition(RecyclerView.LayoutManager layoutManager, int velocityX, int velocityY) {
         return snapHelper.findTargetSnapPosition(layoutManager, velocityX, velocityY);
     }
+
+    void setListener(OnSnapListener listener){
+        snapHelper.setListener(listener);
+    }
 }
