@@ -76,6 +76,10 @@ Clone this repo and check out the [app](https://github.com/TakuSemba/MultiSnapRe
 
 ## Change Log
 
+### Version: 1.1.0
+
+  * reuturn snapped position in OnSnapListener
+  
 ### Version: 1.0.0
 
   * Initial Build
