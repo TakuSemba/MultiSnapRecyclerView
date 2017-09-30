@@ -7,7 +7,7 @@
 ```groovy
 
 dependencies {
-    compile 'com.github.takusemba:multisnaprecyclerview:1.0.2'
+    compile 'com.github.takusemba:multisnaprecyclerview:1.1.0'
 }
 
 ```
@@ -62,8 +62,8 @@ multiSnapRecyclerView.setLayoutManager(layoutManager);
 multiSnapRecyclerView.setAdapter(adapter);
 multiSnapRecyclerView.setOnSnapListener(new OnSnapListener() {
     @Override
-    public void snapped() {
-        // do something
+    public void snapped(int position) {
+        // do something with the position of the snapped view
     }
 });
 ```
