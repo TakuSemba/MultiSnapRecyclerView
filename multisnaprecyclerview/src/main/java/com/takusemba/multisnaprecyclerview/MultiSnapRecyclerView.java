@@ -4,12 +4,12 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 
 /**
  * MultiSnapRecyclerView
+ * Note that only LinearLayoutManger is supported, and reverse layout is not supported.
  *
  * @author takusemba
  * @since 30/07/2017
@@ -39,12 +39,6 @@ public class MultiSnapRecyclerView extends RecyclerView {
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
         setOnFlingListener(null);
-        if (!(getLayoutManager() instanceof LinearLayoutManager)) {
-            throw new IllegalArgumentException("other than LinearLayoutManger is not supported");
-        }
-        if (((LinearLayoutManager) getLayoutManager()).getReverseLayout()) {
-            throw new IllegalArgumentException("reverse layout is not supported");
-        }
         multiSnapHelper.attachToRecyclerView(MultiSnapRecyclerView.this);
     }
 
