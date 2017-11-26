@@ -1,7 +1,7 @@
 package com.takusemba.multisnaprecyclerview;
 
 /**
- * Target
+ * SnapGravity
  *
  * @author takusemba
  * @since 30/07/2017

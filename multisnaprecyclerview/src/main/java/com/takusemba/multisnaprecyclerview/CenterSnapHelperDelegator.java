@@ -6,7 +6,7 @@ import android.view.View;
 
 
 /**
- * Target
+ * CenterSnapHelperDelegator
  *
  * @author takusemba
  * @since 30/07/2017

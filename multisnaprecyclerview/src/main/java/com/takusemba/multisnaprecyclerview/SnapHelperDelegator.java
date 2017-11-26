@@ -6,7 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 /**
- * Target
+ * SnapHelperDelegator
  *
  * @author takusemba
  * @since 30/07/2017

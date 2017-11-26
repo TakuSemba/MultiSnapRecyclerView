@@ -7,7 +7,7 @@ import android.support.v7.widget.SnapHelper;
 import android.view.View;
 
 /**
- * Target
+ * MultiSnapHelper
  *
  * @author takusemba
  * @since 30/07/2017

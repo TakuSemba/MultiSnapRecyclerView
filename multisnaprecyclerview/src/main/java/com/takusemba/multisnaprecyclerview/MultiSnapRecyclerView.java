@@ -9,9 +9,11 @@ import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 
 /**
- * Created by takusemba on 2017/07/29.
- */
-
+ * MultiSnapRecyclerView
+ *
+ * @author takusemba
+ * @since 30/07/2017
+ **/
 public class MultiSnapRecyclerView extends RecyclerView {
 
     private MultiSnapHelper multiSnapHelper;
