@@ -13,7 +13,7 @@ dependencies {
 ```
 <br/>
 
-<img src="https://github.com/TakuSemba/MultiSnapRecyclerView/blob/master/arts/gravity.gif" align="right" width="300">
+<img src="https://github.com/TakuSemba/MultiSnapRecyclerView/blob/master/arts/gravity.gif" align="right" width="30%">
 
 ## Features
 ![Platform](http://img.shields.io/badge/platform-android-green.svg?style=flat)
