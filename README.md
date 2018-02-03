@@ -40,7 +40,7 @@ What this does are clean, neat, and powerful.
 <br/>
 <br/>
 
-<img src="https://github.com/TakuSemba/MultiSnapRecyclerView/blob/master/arts/snap_count.gif" align="left" width="300">
+<img src="https://github.com/TakuSemba/MultiSnapRecyclerView/blob/master/arts/snap_count.gif" align="left" width="30%">
 
 ## Usage
 Use MultiSnapRecyclerView in your xml file.
