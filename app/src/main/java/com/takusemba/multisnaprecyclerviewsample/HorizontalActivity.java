@@ -27,7 +27,7 @@ public class HorizontalActivity extends AppCompatActivity {
             "Lollipop",
             "Marshmallow",
             "Nougat",
-            "Android O",
+            "Oreo",
     };
 
 

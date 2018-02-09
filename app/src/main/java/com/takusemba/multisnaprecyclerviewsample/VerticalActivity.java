@@ -27,7 +27,7 @@ public class VerticalActivity extends AppCompatActivity {
             "Lollipop",
             "Marshmallow",
             "Nougat",
-            "Android O",
+            "Oreo",
     };
 
 
