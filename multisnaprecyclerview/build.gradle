@@ -19,9 +19,6 @@ dependencies {
     compile "com.android.support:recyclerview-v7:$APP_COMPAT_VERSION"
 }
 
-group = GROUP
-version = LIBRARY_VERSION_NAME
-
 def getBintrayUserProperty() {
     return hasProperty('bintrayUser') ? bintrayUser : ""
 }
@@ -35,6 +32,8 @@ bintray {
     user = bintrayUserProperty
     key = bintrayApiKeyProperty
 
+    group = GROUP
+    version = LIBRARY_VERSION_NAME
     configurations = ['archives'] //When uploading configuration files
     pkg {
         repo = POM_REPO
@@ -98,6 +97,8 @@ artifacts {
     archives sourcesJar
 }
 
-task findConventions << {
-    println project.getConvention()
+afterEvaluate {
+    javadoc.classpath += files(android.libraryVariants.collect { variant ->
+        variant.javaCompiler.classpath.files
+    })
 }
