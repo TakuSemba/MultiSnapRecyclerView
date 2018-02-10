@@ -34,7 +34,7 @@ bintray {
 
     group = GROUP
     version = LIBRARY_VERSION_NAME
-    configurations = ['archives'] //When uploading configuration files
+    configurations = ['archives']
     pkg {
         repo = POM_REPO
         name = POM_NAME
