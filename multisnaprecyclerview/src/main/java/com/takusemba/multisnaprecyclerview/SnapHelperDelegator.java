@@ -28,7 +28,7 @@ abstract class SnapHelperDelegator extends BaseSnapHelperDelegator {
     private int previousClosestPosition = 0;
     private OnSnapListener listener;
 
-    void setListener(OnSnapListener listener){
+    void setListener(OnSnapListener listener) {
         this.listener = listener;
     }
 
@@ -133,7 +133,22 @@ abstract class SnapHelperDelegator extends BaseSnapHelperDelegator {
                 }
             }
         }
-        return forwardDirection ? previousClosestPosition + snapCount : previousClosestPosition - snapCount;
+
+        View targetView = layoutManager.findViewByPosition(forwardDirection ? previousClosestPosition + snapCount : previousClosestPosition - snapCount);
+        int distance = targetView != null ? getDistance(layoutManager, targetView, OrientationHelper.createHorizontalHelper(layoutManager)) : 0;
+        if (forwardDirection) {
+            if (distance < 0 && layoutManager.getItemCount() - previousClosestPosition >= snapCount * 2) {
+                return previousClosestPosition + snapCount * 2;
+            } else {
+                return previousClosestPosition + snapCount;
+            }
+        } else {
+            if (distance > 0 && previousClosestPosition >= snapCount * 2) {
+                return previousClosestPosition - snapCount * 2;
+            } else {
+                return previousClosestPosition - snapCount;
+            }
+        }
     }
 
     /**
