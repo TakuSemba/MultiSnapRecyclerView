@@ -37,6 +37,9 @@ public class MultiSnapRecyclerView extends RecyclerView {
         final float millisecondsPerInch = a.getFloat(R.styleable.MultiSnapRecyclerView_msrv_milliseconds_per_inch, 100f);
         a.recycle();
         multiSnapHelper = new MultiSnapHelper(gravity, snapCount, new LinearSmoothScroller(context) {
+            /**
+             * see {@link android.support.v7.widget.SnapHelper#createSnapScroller(LayoutManager)}
+             */
             @Override
             protected void onTargetFound(View targetView, RecyclerView.State state, Action action) {
                 int[] snapDistances = multiSnapHelper.calculateDistanceToFinalSnap(getLayoutManager(),

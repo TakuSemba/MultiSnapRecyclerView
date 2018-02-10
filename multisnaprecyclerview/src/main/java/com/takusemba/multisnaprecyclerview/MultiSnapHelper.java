@@ -65,8 +65,7 @@ class MultiSnapHelper extends SnapHelper {
     /**
      * Creates a scroller to be used in the snapping implementation.
      *
-     * @param layoutManager The {@link RecyclerView.LayoutManager} associated with the attached
-     *                      {@link RecyclerView}.
+     * @param layoutManager The {@link RecyclerView.LayoutManager} associated with the attached {@link RecyclerView}.
      * @return a {@link LinearSmoothScroller} which will handle the scrolling.
      */
     @Nullable
