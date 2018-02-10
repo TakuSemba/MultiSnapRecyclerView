@@ -7,7 +7,7 @@
 ```groovy
 
 dependencies {
-    compile 'com.github.takusemba:multisnaprecyclerview:1.2.0'
+    compile 'com.github.takusemba:multisnaprecyclerview:1.3.0'
 }
 
 ```
@@ -84,10 +84,6 @@ Clone this repo and check out the [app](https://github.com/TakuSemba/MultiSnapRe
 ### Version: 1.1.0
 
   * return snapped position in OnSnapListener
-  
-### Version: 1.0.0
-
-  * Initial Build
 
 
 ## Author
