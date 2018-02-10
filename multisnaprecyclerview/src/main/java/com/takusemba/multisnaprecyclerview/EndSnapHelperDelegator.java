@@ -18,7 +18,7 @@ class EndSnapHelperDelegator extends SnapHelperDelegator {
      * @param snapCount the number of items to scroll over
      */
     EndSnapHelperDelegator(int snapCount) {
-        super(snapCount, false);
+        super(snapCount);
     }
 
     @Override

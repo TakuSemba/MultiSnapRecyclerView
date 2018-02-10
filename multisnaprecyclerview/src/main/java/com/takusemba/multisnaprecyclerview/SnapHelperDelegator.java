@@ -18,14 +18,16 @@ abstract class SnapHelperDelegator extends BaseSnapHelperDelegator {
      *
      * @param snapCount the number of items to scroll over
      */
-    SnapHelperDelegator(int snapCount, boolean isNoOffset) {
+    SnapHelperDelegator(int snapCount) {
         this.snapCount = snapCount;
-        this.isNoOffset = isNoOffset;
     }
 
+    /**
+     * previousClosestPosition should only be set in {@link #findSnapView(RecyclerView.LayoutManager)}
+     */
+    private int previousClosestPosition = 0;
+
     private int snapCount;
-    private boolean isNoOffset; // if snapped to the edge which has offset.
-    private int previousClosestPosition = 0; // only set in findSnapView
     private OnSnapListener listener;
 
     void setListener(OnSnapListener listener) {
@@ -97,7 +99,6 @@ abstract class SnapHelperDelegator extends BaseSnapHelperDelegator {
             }
         }
         previousClosestPosition = closestPosition == RecyclerView.NO_POSITION ? previousClosestPosition : closestPosition;
-        isNoOffset = getDistance(layoutManager, closestChild, helper) == 0;
         if (listener != null && closestPosition != RecyclerView.NO_POSITION) {
             listener.snapped(closestPosition);
         }
@@ -110,25 +111,17 @@ abstract class SnapHelperDelegator extends BaseSnapHelperDelegator {
                 ? OrientationHelper.createHorizontalHelper(layoutManager)
                 : OrientationHelper.createVerticalHelper(layoutManager);
         boolean forwardDirection = layoutManager.canScrollHorizontally() ? velocityX > 0 : velocityY > 0;
-        if (forwardDirection) {
-            for (int i = previousClosestPosition + snapCount; i <= layoutManager.getItemCount(); i = i + snapCount) {
-                View view = layoutManager.findViewByPosition(i);
-                if (view == null || shouldSkipTarget(view, layoutManager, helper, forwardDirection)) {
-                    continue;
-                }
-                return i;
+        int firstExpectedPosition = forwardDirection ? previousClosestPosition + snapCount : previousClosestPosition - snapCount;
+        for (int i = firstExpectedPosition;
+             forwardDirection ? i <= layoutManager.getItemCount() : i >= 0;
+             i = forwardDirection ? i + snapCount : i - snapCount) {
+            View view = layoutManager.findViewByPosition(i);
+            if (view == null || shouldSkipTarget(view, layoutManager, helper, forwardDirection)) {
+                continue;
             }
-            return previousClosestPosition + snapCount;
-        } else {
-            for (int i = previousClosestPosition - snapCount; i >= 0; i = i - snapCount) {
-                View view = layoutManager.findViewByPosition(i);
-                if (view == null || shouldSkipTarget(view, layoutManager, helper, forwardDirection)) {
-                    continue;
-                }
-                return i;
-            }
-            return previousClosestPosition - snapCount;
+            return i;
         }
+        return firstExpectedPosition;
     }
 
     /**
