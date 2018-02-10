@@ -24,8 +24,8 @@ abstract class SnapHelperDelegator extends BaseSnapHelperDelegator {
     }
 
     private int snapCount;
-    private boolean isNoOffset;
-    private int previousClosestPosition = 0;
+    private boolean isNoOffset; // if snapped to the edge which has offset.
+    private int previousClosestPosition = 0; // only set in findSnapView
     private OnSnapListener listener;
 
     void setListener(OnSnapListener listener) {
@@ -135,19 +135,46 @@ abstract class SnapHelperDelegator extends BaseSnapHelperDelegator {
         }
 
         View targetView = layoutManager.findViewByPosition(forwardDirection ? previousClosestPosition + snapCount : previousClosestPosition - snapCount);
-        int distance = targetView != null ? getDistance(layoutManager, targetView, OrientationHelper.createHorizontalHelper(layoutManager)) : 0;
+        int distance = targetView != null ? getDistance(layoutManager, targetView, helper) : 0;
         if (forwardDirection) {
-            if (distance < 0 && layoutManager.getItemCount() - previousClosestPosition >= snapCount * 2) {
-                return previousClosestPosition + snapCount * 2;
-            } else {
+            if (distance > 0) {
                 return previousClosestPosition + snapCount;
             }
         } else {
-            if (distance > 0 && previousClosestPosition >= snapCount * 2) {
-                return previousClosestPosition - snapCount * 2;
-            } else {
+            if (distance < 0) {
                 return previousClosestPosition - snapCount;
             }
+        }
+
+        if (forwardDirection) {
+            for (int i = previousClosestPosition + snapCount * 2; i <= layoutManager.getItemCount(); i = i + snapCount) {
+                View forwardTargetView = layoutManager.findViewByPosition(i);
+                int forwardDistance = forwardTargetView != null ? getDistance(layoutManager, forwardTargetView, helper) : 0;
+                int offset = layoutManager.canScrollHorizontally()
+                        ? forwardTargetView != null ? forwardTargetView.getWidth() * snapCount : -1
+                        : forwardTargetView != null ? forwardTargetView.getHeight() * snapCount : -1;
+                if (forwardTargetView != null && 0 <= forwardDistance && forwardDistance < offset) {
+                    return i;
+                }
+            }
+        } else {
+            for (int i = previousClosestPosition - snapCount * 2; i >= 0; i = i - snapCount) {
+                View backwardTargetView = layoutManager.findViewByPosition(i);
+                int backwardDistance = backwardTargetView != null ? getDistance(layoutManager, backwardTargetView, helper) : 0;
+                int offset = layoutManager.canScrollHorizontally()
+                        ? backwardTargetView != null ? -backwardTargetView.getWidth() * snapCount : 1
+                        : backwardTargetView != null ? -backwardTargetView.getHeight() * snapCount : 1;
+                if (backwardTargetView != null && offset < backwardDistance && backwardDistance <= 0) {
+                    return i;
+                }
+            }
+        }
+
+        // want to delete.
+        if (forwardDirection) {
+            return previousClosestPosition + snapCount;
+        } else {
+            return previousClosestPosition - snapCount;
         }
     }
 
