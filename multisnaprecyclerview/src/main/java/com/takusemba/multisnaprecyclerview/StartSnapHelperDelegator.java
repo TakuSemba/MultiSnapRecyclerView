@@ -41,6 +41,8 @@ class StartSnapHelperDelegator extends SnapHelperDelegator {
 
     @Override
     boolean shouldSkipTarget(View targetView, RecyclerView.LayoutManager layoutManager, OrientationHelper helper, boolean forwardDirection) {
-        return getDistance(layoutManager, targetView, helper) > 0;
+        return forwardDirection
+                ? getDistance(layoutManager, targetView, helper) < 0
+                : getDistance(layoutManager, targetView, helper) > 0;
     }
 }

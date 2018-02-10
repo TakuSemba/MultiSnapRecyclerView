@@ -110,70 +110,23 @@ abstract class SnapHelperDelegator extends BaseSnapHelperDelegator {
                 ? OrientationHelper.createHorizontalHelper(layoutManager)
                 : OrientationHelper.createVerticalHelper(layoutManager);
         boolean forwardDirection = layoutManager.canScrollHorizontally() ? velocityX > 0 : velocityY > 0;
-        if (!isNoOffset) {
-            if (forwardDirection) {
-                for (int i = 1; i <= layoutManager.getItemCount(); i++) {
-                    if ((previousClosestPosition + i) % snapCount == 0) {
-                        View view = layoutManager.findViewByPosition(previousClosestPosition + i);
-                        if (view != null && shouldSkipTarget(view, layoutManager, helper, forwardDirection)) {
-                            continue;
-                        }
-                        return previousClosestPosition + i;
-                    }
-                }
-            } else {
-                for (int i = 1; i <= layoutManager.getItemCount(); i++) {
-                    if ((previousClosestPosition - i) % snapCount == 0) {
-                        View view = layoutManager.findViewByPosition(previousClosestPosition - i);
-                        if (view != null && shouldSkipTarget(view, layoutManager, helper, forwardDirection)) {
-                            continue;
-                        }
-                        return previousClosestPosition - i;
-                    }
-                }
-            }
-        }
-
-        View targetView = layoutManager.findViewByPosition(forwardDirection ? previousClosestPosition + snapCount : previousClosestPosition - snapCount);
-        int distance = targetView != null ? getDistance(layoutManager, targetView, helper) : 0;
         if (forwardDirection) {
-            if (distance > 0) {
-                return previousClosestPosition + snapCount;
-            }
-        } else {
-            if (distance < 0) {
-                return previousClosestPosition - snapCount;
-            }
-        }
-
-        if (forwardDirection) {
-            for (int i = previousClosestPosition + snapCount * 2; i <= layoutManager.getItemCount(); i = i + snapCount) {
-                View forwardTargetView = layoutManager.findViewByPosition(i);
-                int forwardDistance = forwardTargetView != null ? getDistance(layoutManager, forwardTargetView, helper) : 0;
-                int offset = layoutManager.canScrollHorizontally()
-                        ? forwardTargetView != null ? forwardTargetView.getWidth() * snapCount : -1
-                        : forwardTargetView != null ? forwardTargetView.getHeight() * snapCount : -1;
-                if (forwardTargetView != null && 0 <= forwardDistance && forwardDistance < offset) {
-                    return i;
+            for (int i = previousClosestPosition + snapCount; i <= layoutManager.getItemCount(); i = i + snapCount) {
+                View view = layoutManager.findViewByPosition(i);
+                if (view == null || shouldSkipTarget(view, layoutManager, helper, forwardDirection)) {
+                    continue;
                 }
+                return i;
             }
-        } else {
-            for (int i = previousClosestPosition - snapCount * 2; i >= 0; i = i - snapCount) {
-                View backwardTargetView = layoutManager.findViewByPosition(i);
-                int backwardDistance = backwardTargetView != null ? getDistance(layoutManager, backwardTargetView, helper) : 0;
-                int offset = layoutManager.canScrollHorizontally()
-                        ? backwardTargetView != null ? -backwardTargetView.getWidth() * snapCount : 1
-                        : backwardTargetView != null ? -backwardTargetView.getHeight() * snapCount : 1;
-                if (backwardTargetView != null && offset < backwardDistance && backwardDistance <= 0) {
-                    return i;
-                }
-            }
-        }
-
-        // want to delete.
-        if (forwardDirection) {
             return previousClosestPosition + snapCount;
         } else {
+            for (int i = previousClosestPosition - snapCount; i >= 0; i = i - snapCount) {
+                View view = layoutManager.findViewByPosition(i);
+                if (view == null || shouldSkipTarget(view, layoutManager, helper, forwardDirection)) {
+                    continue;
+                }
+                return i;
+            }
             return previousClosestPosition - snapCount;
         }
     }
