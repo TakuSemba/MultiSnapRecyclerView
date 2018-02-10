@@ -33,7 +33,7 @@ public class MultiSnapRecyclerView extends RecyclerView {
         super(context, attrs, defStyle);
         TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.MultiSnapRecyclerView);
         SnapGravity gravity = SnapGravity.valueOf(a.getInt(R.styleable.MultiSnapRecyclerView_msrv_gravity, 0));
-        int snapCount = a.getInteger(R.styleable.MultiSnapRecyclerView_msrv_snap_count, 1);
+        final int snapCount = a.getInteger(R.styleable.MultiSnapRecyclerView_msrv_snap_count, 1);
         final float millisecondsPerInch = a.getFloat(R.styleable.MultiSnapRecyclerView_msrv_milliseconds_per_inch, 100f);
         a.recycle();
         multiSnapHelper = new MultiSnapHelper(gravity, snapCount, new LinearSmoothScroller(context) {
