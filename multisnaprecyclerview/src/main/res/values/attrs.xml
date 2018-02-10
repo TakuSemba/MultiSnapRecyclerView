@@ -7,5 +7,6 @@
             <enum name="end" value="2" />
         </attr>
         <attr name="msrv_snap_count" format="integer" />
+        <attr name="msrv_milliseconds_per_inch" format="float" />
     </declare-styleable>
 </resources>

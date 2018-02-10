@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="normal_speed" type="dimen" format="float">100</item>
+    <item name="high_speed" type="dimen" format="float">50</item>
+    <item name="low_speed" type="dimen" format="float">120</item>
+</resources>

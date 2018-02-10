@@ -2,6 +2,7 @@ package com.takusemba.multisnaprecyclerview;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearSmoothScroller;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SnapHelper;
 import android.view.View;
@@ -15,14 +16,16 @@ import android.view.View;
 class MultiSnapHelper extends SnapHelper {
 
     private BaseSnapHelperDelegator snapHelper;
+    private LinearSmoothScroller scroller;
 
     /**
      * Constructor
      *
-     * @param gravity gravity to which the RecyclerView snaps
+     * @param gravity   gravity to which the RecyclerView snaps
      * @param snapCount the number of items to scroll over
      */
-    MultiSnapHelper(SnapGravity gravity, int snapCount) {
+    MultiSnapHelper(SnapGravity gravity, int snapCount, LinearSmoothScroller scroller) {
+        this.scroller = scroller;
         switch (gravity) {
             case CENTER:
                 snapHelper = new CenterSnapHelperDelegator(snapCount);
@@ -55,7 +58,22 @@ class MultiSnapHelper extends SnapHelper {
         return snapHelper.findTargetSnapPosition(layoutManager, velocityX, velocityY);
     }
 
-    void setListener(OnSnapListener listener){
+    void setListener(OnSnapListener listener) {
         snapHelper.setListener(listener);
+    }
+
+    /**
+     * Creates a scroller to be used in the snapping implementation.
+     *
+     * @param layoutManager The {@link RecyclerView.LayoutManager} associated with the attached
+     *                      {@link RecyclerView}.
+     * @return a {@link LinearSmoothScroller} which will handle the scrolling.
+     */
+    @Nullable
+    protected LinearSmoothScroller createSnapScroller(final RecyclerView.LayoutManager layoutManager) {
+        if (!(layoutManager instanceof RecyclerView.SmoothScroller.ScrollVectorProvider)) {
+            return null;
+        }
+        return scroller;
     }
 }
