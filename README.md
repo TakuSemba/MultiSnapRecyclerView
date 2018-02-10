@@ -77,6 +77,10 @@ Clone this repo and check out the [app](https://github.com/TakuSemba/MultiSnapRe
 
 ## Change Log
 
+### Version: 1.2.0
+
+  * control of speed when scrolling through
+
 ### Version: 1.1.0
 
   * return snapped position in OnSnapListener
