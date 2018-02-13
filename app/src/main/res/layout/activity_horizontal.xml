@@ -59,7 +59,7 @@
             android:orientation="horizontal"
             app:msrv_gravity="end"
             app:msrv_ms_per_inch="@dimen/high_speed"
-            app:msrv_snap_count="2" />
+            app:msrv_snap_count="3" />
 
 
     </LinearLayout>
