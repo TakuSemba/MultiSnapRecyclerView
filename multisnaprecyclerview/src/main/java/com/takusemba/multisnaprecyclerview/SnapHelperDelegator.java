@@ -3,7 +3,6 @@ package com.takusemba.multisnaprecyclerview;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 
 /**
@@ -124,12 +123,12 @@ abstract class SnapHelperDelegator extends BaseSnapHelperDelegator {
             }
             if (forwardDirection) {
                 int diff = i - previousClosestPosition;
-                int factor = diff / snapCount + 1;
+                int factor = (diff % snapCount == 0) ? diff / snapCount : diff / snapCount + 1;
                 return previousClosestPosition + snapCount * factor;
             } else {
                 int diff = previousClosestPosition - i;
-                int factor = diff / snapCount + 1;
-                if (previousClosestPosition == layoutManager.getItemCount() - 1) {
+                int factor = (diff % snapCount == 0) ? diff / snapCount : diff / snapCount + 1;
+                if (previousClosestPosition == layoutManager.getItemCount() - 1 && previousClosestPosition % snapCount != 0) {
                     return (previousClosestPosition - previousClosestPosition % snapCount + snapCount) - snapCount * factor;
                 }
                 return previousClosestPosition - snapCount * factor;
