@@ -3,6 +3,7 @@ package com.takusemba.multisnaprecyclerview;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 
 /**
@@ -87,6 +88,7 @@ abstract class SnapHelperDelegator extends BaseSnapHelperDelegator {
             if (previousClosestPosition == layoutManager.getPosition(child) && getDistance(layoutManager, child, helper) == 0) {
                 //child is already set to the position.
                 closestChild = child;
+                closestPosition = layoutManager.getPosition(closestChild);
                 break;
             }
             if (layoutManager.getPosition(child) % snapCount != 0) {
@@ -111,17 +113,30 @@ abstract class SnapHelperDelegator extends BaseSnapHelperDelegator {
                 ? OrientationHelper.createHorizontalHelper(layoutManager)
                 : OrientationHelper.createVerticalHelper(layoutManager);
         boolean forwardDirection = layoutManager.canScrollHorizontally() ? velocityX > 0 : velocityY > 0;
-        int firstExpectedPosition = forwardDirection ? previousClosestPosition + snapCount : previousClosestPosition - snapCount;
+        int firstExpectedPosition;
+        firstExpectedPosition = forwardDirection ? 0 : layoutManager.getItemCount() - 1;
         for (int i = firstExpectedPosition;
-             forwardDirection ? i <= layoutManager.getItemCount() : i >= 0;
-             i = forwardDirection ? i + snapCount : i - snapCount) {
+             forwardDirection ? i <= layoutManager.getItemCount() - 1 : i >= 0;
+             i = forwardDirection ? i + 1 : i - 1) {
             View view = layoutManager.findViewByPosition(i);
             if (view == null || shouldSkipTarget(view, layoutManager, helper, forwardDirection)) {
                 continue;
             }
-            return i;
+            if (forwardDirection) {
+                int diff = i - previousClosestPosition;
+                int factor = diff / snapCount + 1;
+                return previousClosestPosition + snapCount * factor;
+            } else {
+                int diff = previousClosestPosition - i;
+                int factor = diff / snapCount + 1;
+                if (previousClosestPosition == layoutManager.getItemCount() - 1) {
+                    return (previousClosestPosition - previousClosestPosition % snapCount + snapCount) - snapCount * factor;
+                }
+                return previousClosestPosition - snapCount * factor;
+            }
         }
-        return firstExpectedPosition;
+        // reached to end or start
+        return forwardDirection ? layoutManager.getItemCount() - 1 : 0;
     }
 
     /**
