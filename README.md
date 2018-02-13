@@ -7,7 +7,7 @@
 ```groovy
 
 dependencies {
-    compile 'com.github.takusemba:multisnaprecyclerview:1.3.0'
+    compile 'com.github.takusemba:multisnaprecyclerview:1.3.1'
 }
 
 ```
