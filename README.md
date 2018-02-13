@@ -7,7 +7,7 @@
 ```groovy
 
 dependencies {
-    compile 'com.github.takusemba:multisnaprecyclerview:1.3.1'
+    compile 'com.github.takusemba:multisnaprecyclerview:1.3.2'
 }
 
 ```
@@ -50,7 +50,7 @@ Use MultiSnapRecyclerView in your xml file.
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:msrv_gravity="start" or center, end
-        app:msrv_milliseconds_per_inch="@dimen/normal_speed" // speed of scrolling through.
+        app:msrv_ms_per_inch="@dimen/normal_speed" // speed of scrolling through.
         app:msrv_snap_count="2" /> items to scroll over
 
 ```
