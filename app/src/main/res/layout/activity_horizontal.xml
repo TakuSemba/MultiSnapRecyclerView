@@ -22,14 +22,14 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             app:msrv_gravity="start"
-            app:msrv_milliseconds_per_inch="@dimen/normal_speed"
+            app:msrv_ms_per_inch="@dimen/normal_speed"
             app:msrv_snap_count="1" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            android:text="Gravity: Center, SnapCount: 2, timePerInch: 50ms"
+            android:text="Gravity: Center, SnapCount: 2, timePerInch: 120ms"
             android:textSize="16sp" />
 
         <com.takusemba.multisnaprecyclerview.MultiSnapRecyclerView
@@ -39,7 +39,7 @@
             android:layout_gravity="center_vertical"
             android:orientation="horizontal"
             app:msrv_gravity="center"
-            app:msrv_milliseconds_per_inch="@dimen/high_speed"
+            app:msrv_ms_per_inch="@dimen/low_speed"
             app:msrv_snap_count="2" />
 
 
@@ -48,7 +48,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            android:text="Gravity: End, SnapCount: 2, timePerInch: 120ms"
+            android:text="Gravity: End, SnapCount: 3, timePerInch: 50ms"
             android:textSize="16sp" />
 
         <com.takusemba.multisnaprecyclerview.MultiSnapRecyclerView
@@ -58,7 +58,7 @@
             android:layout_gravity="center_vertical"
             android:orientation="horizontal"
             app:msrv_gravity="end"
-            app:msrv_milliseconds_per_inch="@dimen/low_speed"
+            app:msrv_ms_per_inch="@dimen/high_speed"
             app:msrv_snap_count="2" />
 
 
