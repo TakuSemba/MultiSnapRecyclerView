@@ -9,6 +9,8 @@ import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.view.View;
+import android.view.animation.DecelerateInterpolator;
+import android.view.animation.Interpolator;
 
 /**
  * MultiSnapRecyclerView
@@ -58,6 +60,39 @@ public class MultiSnapRecyclerView extends RecyclerView {
             }
         });
     }
+
+    public void snapToPosition(View targetView) {
+        View currentView = multiSnapHelper.findSnapView(getLayoutManager());
+        if (currentView != null && targetView != null) {
+            if (currentView.equals(targetView)) {
+                return;
+            } else {
+                int multipler = 1;
+                int leftDirection;
+                leftDirection = getDirectionToSnap(currentView, targetView);
+                float unit = targetView.getWidth();
+                float distance = Math.abs(targetView.getX() - currentView.getX()) - getAllMarginForViews(currentView, targetView);
+                float delta = unit;
+                while (distance > delta * 1.1f) {
+                    delta += unit;
+                    multipler++;
+                }
+                smoothScrollBy(multipler * leftDirection * targetView.getWidth(), 0, new DecelerateInterpolator());
+            }
+        }
+    }
+
+    private float getAllMarginForViews(View currentView, View targetView) {
+        return ViewUtil.getLeftMargin(currentView) + ViewUtil.getRightMargin(currentView) + ViewUtil.getLeftMargin(targetView) + ViewUtil.getRightMargin(targetView);
+    }
+
+    private int getDirectionToSnap(View currentView, View targetView) {
+        if (ViewUtil.isForwardedTargetView(currentView, targetView)) {
+            return -1;
+        }
+        return 1;
+    }
+
 
     @Override
     protected void onAttachedToWindow() {

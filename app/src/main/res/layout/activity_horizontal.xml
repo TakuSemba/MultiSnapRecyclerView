@@ -40,7 +40,7 @@
             android:orientation="horizontal"
             app:msrv_gravity="center"
             app:msrv_ms_per_inch="@dimen/low_speed"
-            app:msrv_snap_count="2" />
+            app:msrv_snap_count="1" />
 
 
         <TextView
