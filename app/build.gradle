@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
 
 android {
   compileSdkVersion COMPILE_SDK_VERSION as int
@@ -20,8 +21,12 @@ android {
 }
 
 dependencies {
+  compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$KOTLIN_VERSION"
   compile "com.android.support:appcompat-v7:$APP_COMPAT_VERSION"
   compile "com.android.support:recyclerview-v7:$APP_COMPAT_VERSION"
   compile "com.android.support:cardview-v7:$APP_COMPAT_VERSION"
   compile project(':multisnaprecyclerview')
+}
+repositories {
+  mavenCentral()
 }
