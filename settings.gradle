@@ -1,2 +1,1 @@
-include ':app'
-include ':multisnaprecyclerview'
+include ':app', ':multisnaprecyclerview'

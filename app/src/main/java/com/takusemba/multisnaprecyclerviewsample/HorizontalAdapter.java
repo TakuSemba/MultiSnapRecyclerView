@@ -12,35 +12,34 @@ import android.widget.TextView;
 
 public class HorizontalAdapter extends RecyclerView.Adapter<HorizontalAdapter.ViewHolder> {
 
-    private String[] titles;
+  private String[] titles;
 
-    public HorizontalAdapter(String[] titles) {
-        this.titles = titles;
+  public HorizontalAdapter(String[] titles) {
+    this.titles = titles;
+  }
+
+  @Override
+  public HorizontalAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
+    View view = LayoutInflater.from(viewGroup.getContext())
+        .inflate(R.layout.item_horizontal, viewGroup, false);
+    return new HorizontalAdapter.ViewHolder(view);
+  }
+
+  @Override public void onBindViewHolder(HorizontalAdapter.ViewHolder holder, int position) {
+    String title = titles[position];
+    holder.title.setText(title);
+  }
+
+  @Override public int getItemCount() {
+    return titles.length;
+  }
+
+  class ViewHolder extends RecyclerView.ViewHolder {
+    private TextView title;
+
+    ViewHolder(final View itemView) {
+      super(itemView);
+      this.title = (TextView) itemView.findViewById(R.id.title);
     }
-
-    @Override
-    public HorizontalAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_horizontal, viewGroup, false);
-        return new HorizontalAdapter.ViewHolder(view);
-    }
-
-    @Override
-    public void onBindViewHolder(HorizontalAdapter.ViewHolder holder, int position) {
-        String title = titles[position];
-        holder.title.setText(title);
-    }
-
-    @Override
-    public int getItemCount() {
-        return titles.length;
-    }
-
-    class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView title;
-
-        ViewHolder(final View itemView) {
-            super(itemView);
-            this.title = (TextView) itemView.findViewById(R.id.title);
-        }
-    }
+  }
 }
