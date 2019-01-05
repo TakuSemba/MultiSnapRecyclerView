@@ -8,10 +8,10 @@ package com.takusemba.multisnaprecyclerview;
  **/
 public interface OnSnapListener {
 
-    /**
-     * Called when RecyclerView is snapped
-     *
-     * @param position snapped position
-     */
-    void snapped(int position);
+  /**
+   * Called when RecyclerView is snapped
+   *
+   * @param position snapped position
+   */
+  void snapped(int position);
 }

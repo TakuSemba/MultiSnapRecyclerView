@@ -12,39 +12,38 @@ import android.widget.TextView;
 
 public class VerticalAdapter extends RecyclerView.Adapter<VerticalAdapter.ViewHolder> {
 
-    private String[] titles;
+  private String[] titles;
 
-    public VerticalAdapter(String[] titles) {
-        this.titles = titles;
+  public VerticalAdapter(String[] titles) {
+    this.titles = titles;
+  }
+
+  @Override
+  public VerticalAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
+    View view = LayoutInflater.from(viewGroup.getContext())
+        .inflate(R.layout.item_vertical, viewGroup, false);
+    return new VerticalAdapter.ViewHolder(view);
+  }
+
+  @Override public void onBindViewHolder(VerticalAdapter.ViewHolder holder, int position) {
+    String title = titles[position];
+    String description = "Hello world, " + title;
+    holder.title.setText(title);
+    holder.description.setText(description);
+  }
+
+  @Override public int getItemCount() {
+    return titles.length;
+  }
+
+  class ViewHolder extends RecyclerView.ViewHolder {
+    private TextView title;
+    private TextView description;
+
+    ViewHolder(final View itemView) {
+      super(itemView);
+      this.title = (TextView) itemView.findViewById(R.id.title);
+      this.description = (TextView) itemView.findViewById(R.id.description);
     }
-
-    @Override
-    public VerticalAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_vertical, viewGroup, false);
-        return new VerticalAdapter.ViewHolder(view);
-    }
-
-    @Override
-    public void onBindViewHolder(VerticalAdapter.ViewHolder holder, int position) {
-        String title = titles[position];
-        String description = "Hello world, " + title;
-        holder.title.setText(title);
-        holder.description.setText(description);
-    }
-
-    @Override
-    public int getItemCount() {
-        return titles.length;
-    }
-
-    class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView title;
-        private TextView description;
-
-        ViewHolder(final View itemView) {
-            super(itemView);
-            this.title = (TextView) itemView.findViewById(R.id.title);
-            this.description = (TextView) itemView.findViewById(R.id.description);
-        }
-    }
+  }
 }
