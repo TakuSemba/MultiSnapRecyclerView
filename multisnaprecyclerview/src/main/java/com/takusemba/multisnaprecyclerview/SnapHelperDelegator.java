@@ -71,22 +71,22 @@ abstract class SnapHelperDelegator extends BaseSnapHelperDelegator {
       int absDistance = Math.abs(childPosition - containerPosition);
       if (helper.getDecoratedStart(child) == 0 && previousClosestPosition != 0
           && layoutManager.getPosition(child) == 0) {
-        //RecyclerView reached start
+        // RecyclerView reached start
         closestChild = child;
         closestPosition = layoutManager.getPosition(closestChild);
         break;
       }
-      if (helper.getDecoratedEnd(child) == helper.getTotalSpace()
+      if (helper.getDecoratedEnd(child) == helper.getEndAfterPadding()
           && previousClosestPosition != layoutManager.getItemCount() - 1
           && layoutManager.getPosition(child) == layoutManager.getItemCount() - 1) {
-        //RecyclerView reached end
+        // RecyclerView reached end
         closestChild = child;
         closestPosition = layoutManager.getPosition(closestChild);
         break;
       }
       if (previousClosestPosition == layoutManager.getPosition(child)
           && getDistance(layoutManager, child, helper) == 0) {
-        //child is already set to the position.
+        // child is already set to the position.
         closestChild = child;
         closestPosition = layoutManager.getPosition(closestChild);
         break;
