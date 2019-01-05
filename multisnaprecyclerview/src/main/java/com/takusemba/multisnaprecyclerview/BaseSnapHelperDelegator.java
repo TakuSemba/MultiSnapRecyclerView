@@ -5,10 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 /**
- * BaseSnapHelperDelegator
- *
- * @author takusemba
- * @since 30/07/2017
+ * abstract class to delegate {@link MultiSnapHelper} methods.
  **/
 abstract class BaseSnapHelperDelegator {
 

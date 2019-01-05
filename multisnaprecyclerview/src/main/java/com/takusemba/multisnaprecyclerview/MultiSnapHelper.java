@@ -8,10 +8,7 @@ import android.support.v7.widget.SnapHelper;
 import android.view.View;
 
 /**
- * MultiSnapHelper
- *
- * @author takusemba
- * @since 30/07/2017
+ * Helper class that extends SnapHelper to archive snapping
  **/
 class MultiSnapHelper extends SnapHelper {
 
@@ -19,7 +16,7 @@ class MultiSnapHelper extends SnapHelper {
   private LinearSmoothScroller scroller;
 
   /**
-   * Constructor
+   * Creates MultiSnapHelper
    *
    * @param gravity gravity to which the RecyclerView snaps
    * @param snapCount the number of items to scroll over

@@ -5,10 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 /**
- * EndSnapHelperDelegator
- *
- * @author takusemba
- * @since 30/07/2017
+ * {@link SnapHelperDelegator} for end gravity
  **/
 class EndSnapHelperDelegator extends SnapHelperDelegator {
 

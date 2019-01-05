@@ -13,9 +13,6 @@ import android.view.View;
 /**
  * MultiSnapRecyclerView
  * Note that only LinearLayoutManger is supported, and reverse layout is not supported.
- *
- * @author takusemba
- * @since 30/07/2017
  **/
 public class MultiSnapRecyclerView extends RecyclerView {
 

@@ -6,10 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-/**
- * Created by takusemba on 2017/08/03.
- */
-
 public class VerticalAdapter extends RecyclerView.Adapter<VerticalAdapter.ViewHolder> {
 
   private String[] titles;

@@ -6,15 +6,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 /**
- * SnapHelperDelegator
- *
- * @author takusemba
- * @since 30/07/2017
+ * implements common methods.
  **/
 abstract class SnapHelperDelegator extends BaseSnapHelperDelegator {
 
   /**
-   * Constructor
+   * Creates SnapHelperDelegator
    *
    * @param snapCount the number of items to scroll over
    */

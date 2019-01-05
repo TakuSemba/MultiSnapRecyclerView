@@ -5,10 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 /**
- * CenterSnapHelperDelegator
- *
- * @author takusemba
- * @since 30/07/2017
+ * {@link SnapHelperDelegator} for center gravity
  **/
 class CenterSnapHelperDelegator extends SnapHelperDelegator {
 

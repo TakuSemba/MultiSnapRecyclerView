@@ -5,10 +5,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import com.takusemba.multisnaprecyclerview.MultiSnapRecyclerView;
 
-/**
- * Created by takusemba on 2017/08/03.
- */
-
 public class HorizontalActivity extends AppCompatActivity {
 
   String[] titles = {

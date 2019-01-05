@@ -1,10 +1,7 @@
 package com.takusemba.multisnaprecyclerview;
 
 /**
- * SnapGravity
- *
- * @author takusemba
- * @since 30/07/2017
+ * supported gravity
  **/
 enum SnapGravity {
 

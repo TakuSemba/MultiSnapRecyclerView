@@ -1,10 +1,7 @@
 package com.takusemba.multisnaprecyclerview;
 
 /**
- * OnSnapListener
- *
- * @author takusemba
- * @since 30/07/2017
+ * Listener to notify snapping
  **/
 public interface OnSnapListener {
 
