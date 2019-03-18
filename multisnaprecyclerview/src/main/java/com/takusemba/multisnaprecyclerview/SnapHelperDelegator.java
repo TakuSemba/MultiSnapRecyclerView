@@ -14,9 +14,11 @@ abstract class SnapHelperDelegator extends BaseSnapHelperDelegator {
    * Creates SnapHelperDelegator
    *
    * @param snapCount the number of items to scroll over
+   * @param isRtl the boolean variable that shows the current layout direction
    */
-  SnapHelperDelegator(int snapCount) {
+  SnapHelperDelegator(int snapCount, boolean isRtl) {
     this.snapCount = snapCount;
+    this.isRtl = isRtl;
   }
 
   /**
@@ -25,6 +27,7 @@ abstract class SnapHelperDelegator extends BaseSnapHelperDelegator {
   private int previousClosestPosition = 0;
 
   private int snapCount;
+  private boolean isRtl;
   private OnSnapListener listener;
 
   void setListener(OnSnapListener listener) {
@@ -121,6 +124,11 @@ abstract class SnapHelperDelegator extends BaseSnapHelperDelegator {
       if (view == null || shouldSkipTarget(view, layoutManager, helper, forwardDirection)) {
         continue;
       }
+
+      if (layoutManager.canScrollHorizontally() && isRtl) {
+        forwardDirection = !forwardDirection;
+      }
+
       if (forwardDirection) {
         int diff = i - previousClosestPosition;
         int factor = (diff % snapCount == 0) ? diff / snapCount : diff / snapCount + 1;

@@ -1,6 +1,7 @@
 package com.takusemba.multisnaprecyclerview;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -35,7 +36,14 @@ public class MultiSnapRecyclerView extends RecyclerView {
     final float millisecondsPerInch =
         a.getFloat(R.styleable.MultiSnapRecyclerView_msrv_ms_per_inch, 100f);
     a.recycle();
-    multiSnapHelper = new MultiSnapHelper(gravity, snapCount, new LinearSmoothScroller(context) {
+    final boolean isRtl;
+    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR1) {
+      final Configuration configuration = context.getResources().getConfiguration();
+      isRtl = configuration.getLayoutDirection() == View.LAYOUT_DIRECTION_RTL;
+    } else {
+      isRtl = false;
+    }
+    multiSnapHelper = new MultiSnapHelper(gravity, snapCount, isRtl, new LinearSmoothScroller(context) {
       /**
        * see {@link android.support.v7.widget.SnapHelper#createSnapScroller(LayoutManager)}
        */

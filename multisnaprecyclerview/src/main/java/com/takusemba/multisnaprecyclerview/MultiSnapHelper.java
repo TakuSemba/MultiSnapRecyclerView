@@ -20,18 +20,19 @@ class MultiSnapHelper extends SnapHelper {
    *
    * @param gravity gravity to which the RecyclerView snaps
    * @param snapCount the number of items to scroll over
+   * @param isRtl the boolean variable that shows the current layout direction
    */
-  MultiSnapHelper(SnapGravity gravity, int snapCount, LinearSmoothScroller scroller) {
+  MultiSnapHelper(SnapGravity gravity, int snapCount, boolean isRtl, LinearSmoothScroller scroller) {
     this.scroller = scroller;
     switch (gravity) {
       case CENTER:
-        snapHelper = new CenterSnapHelperDelegator(snapCount);
+        snapHelper = new CenterSnapHelperDelegator(snapCount, isRtl);
         break;
       case START:
-        snapHelper = new StartSnapHelperDelegator(snapCount);
+        snapHelper = new StartSnapHelperDelegator(snapCount, isRtl);
         break;
       case END:
-        snapHelper = new EndSnapHelperDelegator(snapCount);
+        snapHelper = new EndSnapHelperDelegator(snapCount, isRtl);
         break;
       default:
         throw new IllegalArgumentException("not supported gravity");

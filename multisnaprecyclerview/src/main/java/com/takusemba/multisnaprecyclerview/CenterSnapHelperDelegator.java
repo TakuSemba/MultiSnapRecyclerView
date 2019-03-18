@@ -13,9 +13,10 @@ class CenterSnapHelperDelegator extends SnapHelperDelegator {
    * Constructor
    *
    * @param snapCount the number of items to scroll over
+   * @param isRtl the boolean variable that shows the current layout direction
    */
-  CenterSnapHelperDelegator(int snapCount) {
-    super(snapCount);
+  CenterSnapHelperDelegator(int snapCount, boolean isRtl) {
+    super(snapCount, isRtl);
   }
 
   @Override int getDistance(RecyclerView.LayoutManager layoutManager, View targetView,
