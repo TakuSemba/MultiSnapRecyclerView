@@ -9,7 +9,7 @@ buildscript {
       libraryVersionName: "1.3.4",
 
       compileSdkVersion: 28,
-      minSdkVersion: 13,
+      minSdkVersion: 14,
       targetSdkVersion: 28,
   ]
   ext.versions = [
