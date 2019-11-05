@@ -1,8 +1,8 @@
 package com.takusemba.multisnaprecyclerviewsample
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.LinearLayoutManager
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.takusemba.multisnaprecyclerview.MultiSnapRecyclerView
 
 class VerticalActivity : AppCompatActivity() {
@@ -32,7 +32,7 @@ class VerticalActivity : AppCompatActivity() {
     setContentView(R.layout.activity_vertical)
 
     val adapter = VerticalAdapter(TITLES)
-    val recyclerView = findViewById(R.id.recycler_view) as MultiSnapRecyclerView
+    val recyclerView = findViewById<MultiSnapRecyclerView>(R.id.recycler_view)
     val manager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
     recyclerView.layoutManager = manager
     recyclerView.adapter = adapter

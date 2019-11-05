@@ -1,8 +1,8 @@
 package com.takusemba.multisnaprecyclerviewsample
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.LinearLayoutManager
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.takusemba.multisnaprecyclerview.MultiSnapRecyclerView
 
 class HorizontalActivity : AppCompatActivity() {
@@ -32,19 +32,19 @@ class HorizontalActivity : AppCompatActivity() {
     setContentView(R.layout.activity_horizontal)
 
     val firstAdapter = HorizontalAdapter(TITLES)
-    val firstRecyclerView = findViewById(R.id.first_recycler_view) as MultiSnapRecyclerView
+    val firstRecyclerView = findViewById<MultiSnapRecyclerView>(R.id.first_recycler_view)
     val firstManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
     firstRecyclerView.layoutManager = firstManager
     firstRecyclerView.adapter = firstAdapter
 
     val secondAdapter = HorizontalAdapter(TITLES)
-    val secondRecyclerView = findViewById(R.id.second_recycler_view) as MultiSnapRecyclerView
+    val secondRecyclerView = findViewById<MultiSnapRecyclerView>(R.id.second_recycler_view)
     val secondManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
     secondRecyclerView.layoutManager = secondManager
     secondRecyclerView.adapter = secondAdapter
 
     val thirdAdapter = HorizontalAdapter(TITLES)
-    val thirdRecyclerView = findViewById(R.id.third_recycler_view) as MultiSnapRecyclerView
+    val thirdRecyclerView = findViewById<MultiSnapRecyclerView>(R.id.third_recycler_view)
     val thirdManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
     thirdRecyclerView.layoutManager = thirdManager
     thirdRecyclerView.adapter = thirdAdapter

@@ -1,8 +1,8 @@
 package com.takusemba.multisnaprecyclerview;
 
-import android.support.annotation.NonNull;
-import android.support.v7.widget.OrientationHelper;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.OrientationHelper;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 
 /**

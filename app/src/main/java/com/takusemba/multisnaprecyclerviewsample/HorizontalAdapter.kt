@@ -1,25 +1,25 @@
 package com.takusemba.multisnaprecyclerviewsample
 
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import com.takusemba.multisnaprecyclerviewsample.HorizontalAdapter.ViewHolder
 
 class HorizontalAdapter(
     private val titles: Array<String>
-) : RecyclerView.Adapter<HorizontalAdapter.ViewHolder>() {
+) : androidx.recyclerview.widget.RecyclerView.Adapter<ViewHolder>() {
 
   override fun onCreateViewHolder(
       viewGroup: ViewGroup,
       viewType: Int
-  ): HorizontalAdapter.ViewHolder {
+  ): ViewHolder {
     val inflater = LayoutInflater.from(viewGroup.context)
     val view = inflater.inflate(R.layout.item_horizontal, viewGroup, false)
-    return HorizontalAdapter.ViewHolder(view)
+    return ViewHolder(view)
   }
 
-  override fun onBindViewHolder(holder: HorizontalAdapter.ViewHolder, position: Int) {
+  override fun onBindViewHolder(holder: ViewHolder, position: Int) {
     val title = titles[position]
     holder.title.text = title
   }
@@ -28,7 +28,8 @@ class HorizontalAdapter(
     return titles.size
   }
 
-  class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+  class ViewHolder(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(
+      itemView) {
     val title: TextView = itemView.findViewById(R.id.title) as TextView
   }
 }

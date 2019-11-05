@@ -2,17 +2,18 @@ package com.takusemba.multisnaprecyclerview;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearSmoothScroller;
-import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.view.View;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearSmoothScroller;
+import androidx.recyclerview.widget.RecyclerView;
+
 /**
- * MultiSnapRecyclerView
- * Note that only LinearLayoutManger is supported, and reverse layout is not supported.
+ * MultiSnapRecyclerView Note that only LinearLayoutManger is supported, and reverse layout is not
+ * supported.
  **/
 public class MultiSnapRecyclerView extends RecyclerView {
 
@@ -36,11 +37,9 @@ public class MultiSnapRecyclerView extends RecyclerView {
         a.getFloat(R.styleable.MultiSnapRecyclerView_msrv_ms_per_inch, 100f);
     a.recycle();
     multiSnapHelper = new MultiSnapHelper(gravity, snapCount, new LinearSmoothScroller(context) {
-      /**
-       * see {@link android.support.v7.widget.SnapHelper#createSnapScroller(LayoutManager)}
-       */
-      @Override protected void onTargetFound(View targetView, RecyclerView.State state,
-          Action action) {
+
+      @Override
+      protected void onTargetFound(View targetView, RecyclerView.State state, Action action) {
         int[] snapDistances =
             multiSnapHelper.calculateDistanceToFinalSnap(getLayoutManager(), targetView);
         final int dx = snapDistances[0];
