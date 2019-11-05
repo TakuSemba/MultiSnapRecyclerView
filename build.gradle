@@ -19,14 +19,11 @@ buildscript {
   ext.deps = [
       androidPlugin: "com.android.tools.build:gradle:3.5.1",
       bintrayPlugin: "com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4",
-      kotlin: [
-          plugin: "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin}",
-          stdlib: "org.jetbrains.kotlin:kotlin-stdlib:${versions.kotlin}",
-      ],
-      androidx: [
-          appcompat: "com.android.support:appcompat-v7:${versions.androidx}",
-          recyclerview: "com.android.support:recyclerview-v7:${versions.androidx}",
-          cardview: "com.android.support:cardview-v7:${versions.androidx}",
+      kotlin: [plugin: "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin}",
+               stdlib: "org.jetbrains.kotlin:kotlin-stdlib:${versions.kotlin}",],
+      androidx: [appcompat: "com.android.support:appcompat-v7:${versions.androidx}",
+                 recyclerview: "com.android.support:recyclerview-v7:${versions.androidx}",
+                 cardview: "com.android.support:cardview-v7:${versions.androidx}",
       ],
   ]
   repositories {
