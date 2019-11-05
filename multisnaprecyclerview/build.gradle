@@ -15,8 +15,8 @@ android {
 }
 
 dependencies {
-  compile "com.android.support:appcompat-v7:$APP_COMPAT_VERSION"
-  compile "com.android.support:recyclerview-v7:$APP_COMPAT_VERSION"
+  implementation "com.android.support:appcompat-v7:$APP_COMPAT_VERSION"
+  implementation "com.android.support:recyclerview-v7:$APP_COMPAT_VERSION"
 }
 
 def getBintrayUserProperty() {
