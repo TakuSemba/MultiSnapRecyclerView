@@ -1,14 +1,14 @@
-package com.takusemba.multisnaprecyclerview;
+package com.takusemba.multisnaprecyclerview
 
 /**
  * Listener to notify snapping
- **/
-public interface OnSnapListener {
+ */
+interface OnSnapListener {
 
   /**
    * Called when RecyclerView is snapped
    *
    * @param position snapped position
    */
-  void snapped(int position);
+  fun snapped(position: Int)
 }

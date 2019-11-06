@@ -4,9 +4,9 @@ Release notes
 Version 2.0.0 **(xx-xx-xx)**
 ----------------------------
  - Migrate to AndroidX. After this release, your app have to be migrated to AndroidX.
- - Update kotlin version v1.3.50
  - Update sdk version to 28
  - Increase min sdk version to 14
+ - Require Kotlin v1.3.50
 
 Version 1.2.0 **(2018-2-10)**
 ----------------------------
