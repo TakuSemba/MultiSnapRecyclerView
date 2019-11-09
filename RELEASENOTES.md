@@ -6,16 +6,26 @@ Version 2.0.0 **(xx-xx-xx)**
  - Migrate to AndroidX. After this release, your app have to be migrated to AndroidX.
  - Update sdk version to 28
  - Increase min sdk version to 14
- - Require Kotlin v1.3.50
+ - Require Kotlin v1.3.50.
+ - MultiSnapHelper can also be used with the normal RecyclerView.
+ 
+ ```kt
+ val multiSnapHelper = MultiSnapHelper(gravity, interval, speedMsPerInch)
+ multiSnapHelper.attachToRecyclerView(recyclerView)
+ ```
+ 
+ - Rename `msrv_milliseconds_per_inch` attribute to `msrv_speed_ms_per_inch`.
+ - Rename `msrv_snap_count` attribute to `msrv_interval`.
+ - Simplify SnapHelper logic to make it more readable.
 
 Version 1.2.0 **(2018-2-10)**
 ----------------------------
- - Control speed of scrolling through
+ - Control speed of scrolling through.
 
 Version 1.1.0 **(2017-9-30)**
 ----------------------------
- - Add listener to return snapped position in OnSnapListener
+ - Add listener to return snapped position in OnSnapListener.
 
 Version 1.0.0 **(2017-8-4)**
 ----------------------------
- - Initial Release
+ - Initial Release.
