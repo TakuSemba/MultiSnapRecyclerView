@@ -31,7 +31,7 @@ class MultiSnapHelper(
   /**
    * previousClosestPosition should only be set in [findSnapView]
    */
-  private var previousClosestPosition = 0
+  private var previousClosestPosition = 0 // set the first index
   private var listener: OnSnapListener? = null
 
   fun setListener(listener: OnSnapListener) {
@@ -47,7 +47,8 @@ class MultiSnapHelper(
       layoutManager: RecyclerView.LayoutManager,
       targetView: View
   ): IntArray {
-    val distance = getCoordinateDelta(targetView, getOrientationHelper(layoutManager))
+    val helper = getOrientationHelper(layoutManager)
+    val distance = getCoordinateDelta(targetView, helper)
     return intArrayOf(
         if (layoutManager.canScrollHorizontally()) distance else 0, // x-axis
         if (layoutManager.canScrollVertically()) distance else 0 // y-axis
@@ -56,50 +57,61 @@ class MultiSnapHelper(
 
   override fun findSnapView(layoutManager: RecyclerView.LayoutManager): View? {
     val helper = getOrientationHelper(layoutManager)
+    val firstIndex = 0
+    val lastIndex = layoutManager.itemCount - 1
     val childCount = layoutManager.childCount
     if (childCount == 0) return null
 
     var closestChild: View? = null
     var closestPosition = RecyclerView.NO_POSITION
-    var absClosest = Integer.MAX_VALUE
+    var closestDelta = Integer.MAX_VALUE
 
     for (i in 0 until childCount) {
       val child = layoutManager.getChildAt(i) as View
-      val delta = getCoordinateDelta(child, getOrientationHelper(layoutManager))
+      val position = layoutManager.getPosition(child)
+      val delta = getCoordinateDelta(child, helper)
+
+      // RecyclerView reached start
       if (helper.getDecoratedStart(child) == 0 &&
-          previousClosestPosition != 0 &&
-          layoutManager.getPosition(child) == 0) {
-        // RecyclerView reached start
+          previousClosestPosition != firstIndex &&
+          position == firstIndex) {
         closestChild = child
-        closestPosition = layoutManager.getPosition(closestChild)
+        closestPosition = position
         break
       }
+
+      // RecyclerView reached end
       if (helper.getDecoratedEnd(child) == helper.endAfterPadding
-          && previousClosestPosition != layoutManager.itemCount - 1
-          && layoutManager.getPosition(child) == layoutManager.itemCount - 1) {
-        // RecyclerView reached end
+          && previousClosestPosition != lastIndex
+          && position == lastIndex) {
         closestChild = child
-        closestPosition = layoutManager.getPosition(closestChild)
+        closestPosition = position
         break
       }
-      if (previousClosestPosition == layoutManager.getPosition(child) &&
-          getCoordinateDelta(child, getOrientationHelper(layoutManager)) == 0
-      ) {
-        // child is already set to the position.
+
+      // child is already set to the position
+      if (previousClosestPosition == position &&
+          getCoordinateDelta(child, helper) == 0) {
         closestChild = child
-        closestPosition = layoutManager.getPosition(closestChild)
+        closestPosition = position
         break
       }
-      if (layoutManager.getPosition(child) % interval != 0) {
+
+      // position is invalid
+      if (position % interval != 0) {
         continue
       }
-      if (delta < absClosest) {
-        absClosest = delta
+
+      // check if it has the closest delta
+      if (delta < closestDelta) {
+        closestDelta = delta
         closestChild = child
-        closestPosition = layoutManager.getPosition(closestChild)
+        closestPosition = position
       }
     }
-    previousClosestPosition = if (closestPosition == RecyclerView.NO_POSITION) previousClosestPosition else closestPosition
+    if (closestPosition != RecyclerView.NO_POSITION) {
+      previousClosestPosition = closestPosition
+    }
     if (listener != null && closestPosition != RecyclerView.NO_POSITION) {
       listener?.snapped(closestPosition)
     }
@@ -120,21 +132,22 @@ class MultiSnapHelper(
       velocityX: Int,
       velocityY: Int
   ): Int {
+    val helper = getOrientationHelper(layoutManager)
     val velocity = if (layoutManager.canScrollHorizontally()) velocityX else velocityY
-    val first = 0
-    val last = layoutManager.itemCount - 1
-    val range = if (0 < velocity) first..last else last downTo first
+    val firstIndex = 0
+    val lastIndex = layoutManager.itemCount - 1
+    val range = if (0 < velocity) firstIndex..lastIndex else lastIndex downTo firstIndex
     val progression = range step 1
     val iterator = progression.iterator()
 
-    var index: Int = if (0 < velocity) first else last
+    var index: Int = if (0 < velocity) firstIndex else lastIndex
 
     // find first valid position
     // FIXME binary search will improve the speed to find the first valid position.
     while (iterator.hasNext()) {
       index = iterator.next()
       val view = layoutManager.findViewByPosition(index) ?: continue
-      val delta = getCoordinateDelta(view, getOrientationHelper(layoutManager))
+      val delta = getCoordinateDelta(view, helper)
       if (if (0 < velocity) 0 < delta else delta < 0) {
         break
       }
