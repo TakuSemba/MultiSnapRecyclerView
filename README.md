@@ -37,8 +37,6 @@ What this does are clean, neat, and powerful.
 
 <br/>
 <br/>
-<br/>
-<br/>
 
 <img src="https://github.com/TakuSemba/MultiSnapRecyclerView/blob/master/arts/snap_count.gif" align="left" width="30%">
 
