@@ -23,7 +23,7 @@ class MultiSnapHelper(
     private val speedMsPerInch: Float = DEFAULT_SPEED_MS_PER_INCH
 ) : SnapHelper() {
 
-  private val measurement: CoordinateHelper = createLayoutPositionHelper(gravity)
+  private val coordinateHelper: CoordinateHelper = createLayoutPositionHelper(gravity)
   private var orientationHelper: OrientationHelper? = null
 
   private var recyclerView: RecyclerView? = null
@@ -61,12 +61,12 @@ class MultiSnapHelper(
 
     var closestChild: View? = null
     var closestPosition = RecyclerView.NO_POSITION
-    val containerPosition = measurement.getBaseCoordinate(layoutManager, helper)
+    val containerPosition = coordinateHelper.getBaseCoordinate(layoutManager, helper)
     var absClosest = Integer.MAX_VALUE
 
     for (i in 0 until childCount) {
       val child = layoutManager.getChildAt(i) as View
-      val childPosition = measurement.getChildCoordinate(child, helper)
+      val childPosition = coordinateHelper.getChildCoordinate(child, helper)
       val absDistance = abs(childPosition - containerPosition)
       if (helper.getDecoratedStart(child) == 0 && previousClosestPosition != 0
           && layoutManager.getPosition(child) == 0) {
@@ -187,8 +187,8 @@ class MultiSnapHelper(
 
   private fun getCoordinateDelta(targetView: View, layoutManager: RecyclerView.LayoutManager): Int {
     val helper = getOrientationHelper(layoutManager)
-    val childCoordinate = measurement.getChildCoordinate(targetView, helper)
-    val baseCoordinate = measurement.getBaseCoordinate(layoutManager, helper)
+    val childCoordinate = coordinateHelper.getChildCoordinate(targetView, helper)
+    val baseCoordinate = coordinateHelper.getBaseCoordinate(layoutManager, helper)
     return childCoordinate - baseCoordinate
   }
 
