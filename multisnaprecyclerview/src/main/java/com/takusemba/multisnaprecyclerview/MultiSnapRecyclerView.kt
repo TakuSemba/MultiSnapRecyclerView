@@ -5,8 +5,8 @@ import android.util.AttributeSet
 import androidx.recyclerview.widget.RecyclerView
 
 /**
- * MultiSnapRecyclerView Note that only LinearLayoutManger is supported, and reverse layout is not
- * supported.
+ * MultiSnapRecyclerView for multi interval snapping.
+ * Note that only LinearLayoutManger is supported, and reverse layout is not supported.
  */
 class MultiSnapRecyclerView @JvmOverloads constructor(
     context: Context,
@@ -47,9 +47,7 @@ class MultiSnapRecyclerView @JvmOverloads constructor(
   }
 
   /**
-   * sets Snap Listener to RecyclerView
-   *
-   * @param listener OnSnapListener of MultiSnapRecyclerView
+   * Sets [OnSnapListener] to [MultiSnapRecyclerView]
    */
   fun setOnSnapListener(listener: OnSnapListener) {
     multiSnapHelper?.setListener(listener)

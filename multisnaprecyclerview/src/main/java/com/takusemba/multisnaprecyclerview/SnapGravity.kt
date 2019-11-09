@@ -1,22 +1,22 @@
 package com.takusemba.multisnaprecyclerview
 
 /**
- * supported gravity
+ * Supported gravity for snapping.
  */
 enum class SnapGravity(val value: Int) {
 
   /**
-   * gravity to center
+   * gravity to center.
    */
   CENTER(0),
 
   /**
-   * gravity to start (left or top)
+   * gravity to start (left or top).
    */
   START(1),
 
   /**
-   * gravity to start (right or bottom)
+   * gravity to start (right or bottom).
    */
   END(2);
 

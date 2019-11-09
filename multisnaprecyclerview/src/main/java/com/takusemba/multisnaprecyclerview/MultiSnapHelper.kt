@@ -25,7 +25,6 @@ class MultiSnapHelper(
 
   private val coordinateHelper: CoordinateHelper = createLayoutPositionHelper(gravity)
   private var orientationHelper: OrientationHelper? = null
-
   private var recyclerView: RecyclerView? = null
 
   /**
@@ -34,6 +33,9 @@ class MultiSnapHelper(
   private var previousClosestPosition = 0 // set the first index
   private var listener: OnSnapListener? = null
 
+  /**
+   * Sets [OnSnapListener] to [MultiSnapHelper]
+   */
   fun setListener(listener: OnSnapListener) {
     this.listener = listener
   }

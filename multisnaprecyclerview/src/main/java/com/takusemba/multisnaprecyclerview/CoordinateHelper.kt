@@ -6,16 +6,12 @@ import androidx.recyclerview.widget.OrientationHelper
 interface CoordinateHelper {
 
   /**
-   * find the position to snap.
-   *
-   * @return the gravitated snap position.
+   * find the coordinate of RceyclerView.
    */
   fun getBaseCoordinate(helper: OrientationHelper): Int
 
   /**
-   * find the position where the RecyclerView will start to snap
-   *
-   * @return the position of the gravitated side on the target view
+   * find the coordinate of [targetView] in RecyclerView.
    */
   fun getTargetCoordinate(targetView: View, helper: OrientationHelper): Int
 }
