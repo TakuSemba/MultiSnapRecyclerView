@@ -4,7 +4,7 @@ import android.view.View
 import androidx.recyclerview.widget.OrientationHelper
 import androidx.recyclerview.widget.RecyclerView
 
-class StartDistanceMeasurement : DistanceMeasurement {
+class StartCoordinateHelper : CoordinateHelper {
 
   override fun getBaseCoordinate(
       layoutManager: RecyclerView.LayoutManager,

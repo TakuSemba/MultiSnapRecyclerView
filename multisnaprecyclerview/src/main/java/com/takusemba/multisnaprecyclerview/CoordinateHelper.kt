@@ -4,7 +4,7 @@ import android.view.View
 import androidx.recyclerview.widget.OrientationHelper
 import androidx.recyclerview.widget.RecyclerView
 
-interface DistanceMeasurement {
+interface CoordinateHelper {
 
   /**
    * find the position to snap.

@@ -23,7 +23,7 @@ class MultiSnapHelper(
     private val speedMsPerInch: Float = DEFAULT_SPEED_MS_PER_INCH
 ) : SnapHelper() {
 
-  private val measurement: DistanceMeasurement = createLayoutPositionHelper(gravity)
+  private val measurement: CoordinateHelper = createLayoutPositionHelper(gravity)
   private var orientationHelper: OrientationHelper? = null
 
   private var recyclerView: RecyclerView? = null
@@ -47,11 +47,11 @@ class MultiSnapHelper(
       layoutManager: RecyclerView.LayoutManager,
       targetView: View
   ): IntArray {
-    val out = IntArray(2)
     val distance = getCoordinateDelta(targetView, layoutManager)
-    out[0] = if (layoutManager.canScrollHorizontally()) distance else 0
-    out[1] = if (layoutManager.canScrollVertically()) distance else 0
-    return out
+    return intArrayOf(
+        if (layoutManager.canScrollHorizontally()) distance else 0, // x-axis
+        if (layoutManager.canScrollVertically()) distance else 0 // y-axis
+    )
   }
 
   override fun findSnapView(layoutManager: RecyclerView.LayoutManager): View? {
@@ -202,11 +202,11 @@ class MultiSnapHelper(
     }
   }
 
-  private fun createLayoutPositionHelper(gravity: SnapGravity): DistanceMeasurement {
+  private fun createLayoutPositionHelper(gravity: SnapGravity): CoordinateHelper {
     return when (gravity) {
-      SnapGravity.CENTER -> CenterDistanceMeasurement()
-      SnapGravity.START -> StartDistanceMeasurement()
-      SnapGravity.END -> EndDistanceMeasurement()
+      SnapGravity.CENTER -> CenterCoordinateHelper()
+      SnapGravity.START -> StartCoordinateHelper()
+      SnapGravity.END -> EndCoordinateHelper()
     }
   }
 
