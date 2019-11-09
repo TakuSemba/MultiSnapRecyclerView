@@ -16,16 +16,12 @@ import kotlin.math.max
  * @param interval the number of items to scroll over
  */
 class MultiSnapHelper(
-    gravity: SnapGravity,
-    private val interval: Int,
-    private val speedMsPerInch: Float
+    gravity: SnapGravity = DEFAULT_GRAVITY,
+    private val interval: Int = DEFAULT_INTERVAL,
+    private val speedMsPerInch: Float = DEFAULT_SPEED_MS_PER_INCH
 ) : SnapHelper() {
 
-  private val layoutPositionHelper: LayoutPositionHelper = when (gravity) {
-    SnapGravity.START -> StartLayoutPositionHelper()
-    SnapGravity.END -> EndLayoutPositionHelper()
-    SnapGravity.CENTER -> CenterLayoutPositionHelper()
-  }
+  private val layoutPositionHelper: LayoutPositionHelper = gravity.createLayoutPositionHelper()
 
   private var recyclerView: RecyclerView? = null
 
@@ -195,5 +191,14 @@ class MultiSnapHelper(
         return speedMsPerInch / displayMetrics.densityDpi
       }
     }
+  }
+
+  companion object {
+
+    val DEFAULT_GRAVITY = SnapGravity.START
+
+    const val DEFAULT_INTERVAL = 1
+
+    const val DEFAULT_SPEED_MS_PER_INCH = 100f
   }
 }

@@ -24,9 +24,20 @@ class MultiSnapRecyclerView @JvmOverloads constructor(
     val speedMsPerInch: Float
 
     try {
-      gravity = SnapGravity.valueOf(a.getInt(R.styleable.MultiSnapRecyclerView_msrv_gravity, 0))
-      interval = a.getInteger(R.styleable.MultiSnapRecyclerView_msrv_interval, 1)
-      speedMsPerInch = a.getFloat(R.styleable.MultiSnapRecyclerView_msrv_speed_ms_per_inch, 100f)
+      gravity = SnapGravity.valueOf(
+          a.getInt(
+              R.styleable.MultiSnapRecyclerView_msrv_gravity,
+              MultiSnapHelper.DEFAULT_GRAVITY.value
+          )
+      )
+      interval = a.getInteger(
+          R.styleable.MultiSnapRecyclerView_msrv_interval,
+          MultiSnapHelper.DEFAULT_INTERVAL
+      )
+      speedMsPerInch = a.getFloat(
+          R.styleable.MultiSnapRecyclerView_msrv_speed_ms_per_inch,
+          MultiSnapHelper.DEFAULT_SPEED_MS_PER_INCH
+      )
     } finally {
       a.recycle()
     }
