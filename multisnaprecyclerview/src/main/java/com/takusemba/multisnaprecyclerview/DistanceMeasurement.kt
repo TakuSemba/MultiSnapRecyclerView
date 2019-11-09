@@ -11,7 +11,7 @@ interface DistanceMeasurement {
    *
    * @return the gravitated snap position.
    */
-  fun measureContainer(
+  fun getBaseCoordinate(
       layoutManager: RecyclerView.LayoutManager,
       helper: OrientationHelper
   ): Int
@@ -21,5 +21,5 @@ interface DistanceMeasurement {
    *
    * @return the position of the gravitated side on the target view
    */
-  fun measureChild(targetView: View, helper: OrientationHelper): Int
+  fun getChildCoordinate(targetView: View, helper: OrientationHelper): Int
 }

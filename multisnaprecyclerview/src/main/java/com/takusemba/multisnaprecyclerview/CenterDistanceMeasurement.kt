@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 
 class CenterDistanceMeasurement : DistanceMeasurement {
 
-  override fun measureContainer(
+  override fun getBaseCoordinate(
       layoutManager: RecyclerView.LayoutManager,
       helper: OrientationHelper
   ): Int {
@@ -16,7 +16,7 @@ class CenterDistanceMeasurement : DistanceMeasurement {
       helper.end / 2
   }
 
-  override fun measureChild(targetView: View, helper: OrientationHelper): Int {
+  override fun getChildCoordinate(targetView: View, helper: OrientationHelper): Int {
     return helper.getDecoratedStart(targetView) + helper.getDecoratedMeasurement(targetView) / 2
   }
 }

@@ -48,11 +48,7 @@ class MultiSnapHelper(
       targetView: View
   ): IntArray {
     val out = IntArray(2)
-    val distance = getDeltaBetweenBaseAndChild(
-        targetView,
-        layoutManager,
-        getOrientationHelper(layoutManager)
-    )
+    val distance = getCoordinateDelta(targetView, layoutManager)
     out[0] = if (layoutManager.canScrollHorizontally()) distance else 0
     out[1] = if (layoutManager.canScrollVertically()) distance else 0
     return out
@@ -65,12 +61,12 @@ class MultiSnapHelper(
 
     var closestChild: View? = null
     var closestPosition = RecyclerView.NO_POSITION
-    val containerPosition = measurement.measureContainer(layoutManager, helper)
+    val containerPosition = measurement.getBaseCoordinate(layoutManager, helper)
     var absClosest = Integer.MAX_VALUE
 
     for (i in 0 until childCount) {
       val child = layoutManager.getChildAt(i) as View
-      val childPosition = measurement.measureChild(child, helper)
+      val childPosition = measurement.getChildCoordinate(child, helper)
       val absDistance = abs(childPosition - containerPosition)
       if (helper.getDecoratedStart(child) == 0 && previousClosestPosition != 0
           && layoutManager.getPosition(child) == 0) {
@@ -87,8 +83,9 @@ class MultiSnapHelper(
         closestPosition = layoutManager.getPosition(closestChild)
         break
       }
-      if (previousClosestPosition == layoutManager.getPosition(
-              child) && getDeltaBetweenBaseAndChild(child, layoutManager, helper) == 0) {
+      if (previousClosestPosition == layoutManager.getPosition(child) &&
+          getCoordinateDelta(child, layoutManager) == 0
+      ) {
         // child is already set to the position.
         closestChild = child
         closestPosition = layoutManager.getPosition(closestChild)
@@ -131,14 +128,14 @@ class MultiSnapHelper(
     val progression = range step 1
     val iterator = progression.iterator()
 
-    var index: Int = first
-    val orientationHelper = getOrientationHelper(layoutManager)
+    var index: Int = if (0 < velocity) first else last
 
     // find first valid position
+    // FIXME binary search will improve the speed to find the first valid position.
     while (iterator.hasNext()) {
       index = iterator.next()
       val view = layoutManager.findViewByPosition(index) ?: continue
-      val delta = getDeltaBetweenBaseAndChild(view, layoutManager, orientationHelper)
+      val delta = getCoordinateDelta(view, layoutManager)
       if (if (0 < velocity) 0 < delta else delta < 0) {
         break
       }
@@ -188,16 +185,11 @@ class MultiSnapHelper(
     }
   }
 
-  private fun getDeltaBetweenBaseAndChild(
-      targetView: View,
-      layoutManager: RecyclerView.LayoutManager,
-      orientationHelper: OrientationHelper
-  ): Int {
-
-    // coordinate
-    val childDistance = measurement.measureChild(targetView, orientationHelper)
-    val containerDistance = measurement.measureContainer(layoutManager, orientationHelper)
-    return childDistance - containerDistance
+  private fun getCoordinateDelta(targetView: View, layoutManager: RecyclerView.LayoutManager): Int {
+    val helper = getOrientationHelper(layoutManager)
+    val childCoordinate = measurement.getChildCoordinate(targetView, helper)
+    val baseCoordinate = measurement.getBaseCoordinate(layoutManager, helper)
+    return childCoordinate - baseCoordinate
   }
 
   private fun getOrientationHelper(layoutManager: RecyclerView.LayoutManager): OrientationHelper {

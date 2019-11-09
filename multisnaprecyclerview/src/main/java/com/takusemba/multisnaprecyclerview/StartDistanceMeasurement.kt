@@ -6,14 +6,14 @@ import androidx.recyclerview.widget.RecyclerView
 
 class StartDistanceMeasurement : DistanceMeasurement {
 
-  override fun measureContainer(
+  override fun getBaseCoordinate(
       layoutManager: RecyclerView.LayoutManager,
       helper: OrientationHelper
   ): Int {
     return helper.startAfterPadding
   }
 
-  override fun measureChild(targetView: View, helper: OrientationHelper): Int {
+  override fun getChildCoordinate(targetView: View, helper: OrientationHelper): Int {
     return helper.getDecoratedStart(targetView)
   }
 }
