@@ -1,7 +1,7 @@
 Release notes
 ==========
 
-Version 2.0.0 **(xx-xx-xx)**
+Version 2.0.0 **(not released yet)**
 ----------------------------
  - Migrate to AndroidX. After this release, your app have to be migrated to AndroidX.
  - Update sdk version to 28
