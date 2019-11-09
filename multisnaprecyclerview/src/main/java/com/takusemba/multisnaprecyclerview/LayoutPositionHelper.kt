@@ -1,10 +1,10 @@
-package com.takusemba.multisnaprecyclerview.internal
+package com.takusemba.multisnaprecyclerview
 
 import android.view.View
 import androidx.recyclerview.widget.OrientationHelper
 import androidx.recyclerview.widget.RecyclerView
 
-internal interface LayoutPositionHelper {
+interface LayoutPositionHelper {
 
   // TODO 後で消す
   /**

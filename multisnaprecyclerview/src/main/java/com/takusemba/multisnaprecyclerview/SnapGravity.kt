@@ -22,6 +22,8 @@ enum class SnapGravity(val value: Int) {
 
   companion object {
 
+    val DEFAULT = START
+
     fun valueOf(value: Int): SnapGravity {
       for (gravity in values()) {
         if (gravity.value == value) {

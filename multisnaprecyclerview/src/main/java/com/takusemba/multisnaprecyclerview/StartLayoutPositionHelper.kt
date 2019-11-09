@@ -1,10 +1,10 @@
-package com.takusemba.multisnaprecyclerview.internal
+package com.takusemba.multisnaprecyclerview
 
 import android.view.View
 import androidx.recyclerview.widget.OrientationHelper
 import androidx.recyclerview.widget.RecyclerView
 
-internal class StartLayoutPositionHelper : LayoutPositionHelper {
+class StartLayoutPositionHelper : LayoutPositionHelper {
 
   override fun getDistance(
       layoutManager: RecyclerView.LayoutManager, targetView: View,

@@ -1,13 +1,11 @@
 package com.takusemba.multisnaprecyclerview
 
-import android.content.Context
 import android.util.DisplayMetrics
 import android.view.View
 import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.OrientationHelper
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SnapHelper
-import com.takusemba.multisnaprecyclerview.internal.LayoutPositionHelper
 import kotlin.math.abs
 import kotlin.math.max
 
@@ -17,15 +15,19 @@ import kotlin.math.max
  * @param gravity gravity to which the RecyclerView snaps
  * @param snapCount the number of items to scroll over
  */
-internal class MultiSnapHelper(
-    context: Context,
+class MultiSnapHelper(
     gravity: SnapGravity,
     private val snapCount: Int,
-    millisecondsPerInch: Float,
-    private val layoutPositionHelper: LayoutPositionHelper
+    private val speedMsPerInch: Float
 ) : SnapHelper() {
 
-  private var snapHelper: BaseSnapHelperDelegator? = null
+  private val layoutPositionHelper: LayoutPositionHelper = when (gravity) {
+    SnapGravity.START -> StartLayoutPositionHelper()
+    SnapGravity.END -> EndLayoutPositionHelper()
+    SnapGravity.CENTER -> CenterLayoutPositionHelper()
+  }
+
+  private var recyclerView: RecyclerView? = null
 
   /**
    * previousClosestPosition should only be set in [findSnapView]
@@ -35,6 +37,11 @@ internal class MultiSnapHelper(
 
   fun setListener(listener: OnSnapListener) {
     this.listener = listener
+  }
+
+  override fun attachToRecyclerView(recyclerView: RecyclerView?) {
+    super.attachToRecyclerView(recyclerView)
+    this.recyclerView = recyclerView
   }
 
   override fun calculateDistanceToFinalSnap(
@@ -81,7 +88,7 @@ internal class MultiSnapHelper(
     for (i in 0 until childCount) {
       val child = layoutManager.getChildAt(i)!!
       val childPosition = layoutPositionHelper.getChildPosition(child, helper)
-      val absDistance = Math.abs(childPosition - containerPosition)
+      val absDistance = abs(childPosition - containerPosition)
       if (helper.getDecoratedStart(child) == 0 && previousClosestPosition != 0
           && layoutManager.getPosition(child) == 0) {
         // RecyclerView reached start
@@ -159,35 +166,34 @@ internal class MultiSnapHelper(
     return if (forwardDirection) layoutManager.itemCount - 1 else 0
   }
 
-  private val scroller = object : LinearSmoothScroller(context) {
+  /**
+   * Creates a scroller with [speedMsPerInch].
+   *
+   * This is almost the same as [SnapHelper.createSnapScroller] except for speed handling.
+   */
+  override fun createScroller(
+      layoutManager: RecyclerView.LayoutManager?
+  ): RecyclerView.SmoothScroller? {
+    // return null if RecyclerView.SmoothScroller.ScrollVectorProvider was not implemented.
+    if (layoutManager !is RecyclerView.SmoothScroller.ScrollVectorProvider) {
+      return null
+    }
+    // return null if current RecyclerView is null.
+    val rv = recyclerView ?: return null
+    return object : LinearSmoothScroller(rv.context) {
+      override fun onTargetFound(targetView: View, state: RecyclerView.State, action: Action) {
+        val snapDistances = calculateDistanceToFinalSnap(layoutManager, targetView)
+        val dx = snapDistances[0]
+        val dy = snapDistances[1]
+        val time = calculateTimeForDeceleration(max(abs(dx), abs(dy)))
+        if (time > 0) {
+          action.update(dx, dy, time, mDecelerateInterpolator)
+        }
+      }
 
-    override fun onTargetFound(targetView: View, state: RecyclerView.State, action: Action) {
-      val snapDistances = calculateDistanceToFinalSnap(layoutManager!!,
-          targetView)
-      val dx = snapDistances[0]
-      val dy = snapDistances[1]
-      val time = calculateTimeForDeceleration(max(abs(dx), abs(dy)))
-      if (time > 0) {
-        action.update(dx, dy, time, mDecelerateInterpolator)
+      override fun calculateSpeedPerPixel(displayMetrics: DisplayMetrics): Float {
+        return speedMsPerInch / displayMetrics.densityDpi
       }
     }
-
-    override fun calculateSpeedPerPixel(displayMetrics: DisplayMetrics): Float {
-      return millisecondsPerInch / displayMetrics.densityDpi
-    }
-  }
-
-  /**
-   * Creates a scroller to be used in the snapping implementation.
-   *
-   * @param layoutManager The [RecyclerView.LayoutManager] associated with the attached [ ].
-   * @return a [LinearSmoothScroller] which will handle the scrolling.
-   */
-  override fun createSnapScroller(
-      layoutManager: RecyclerView.LayoutManager?
-  ): LinearSmoothScroller? {
-    return if (layoutManager !is RecyclerView.SmoothScroller.ScrollVectorProvider) {
-      null
-    } else scroller
   }
 }
