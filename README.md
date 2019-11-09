@@ -54,7 +54,7 @@ You can either use MultiSnapRecyclerView in your layout.
         app:msrv_ms_per_inch="100" /> // speed of scrolling through.
 ```
 
-Or you can simply attach MultiSnapHelper to your RecyclerView.
+Or you can simply attach MultiSnapHelper to your normal RecyclerView.
 
 ```kt
 val multiSnapHelper = MultiSnapHelper(gravity, interval, speedMsPerInch)
