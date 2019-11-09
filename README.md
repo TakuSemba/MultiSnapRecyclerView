@@ -43,48 +43,33 @@ What this does are clean, neat, and powerful.
 <img src="https://github.com/TakuSemba/MultiSnapRecyclerView/blob/master/arts/snap_count.gif" align="left" width="30%">
 
 ## Usage
-Use MultiSnapRecyclerView in your xml file.
+There are two ways to use MultiSnapRecyclerView.
+
+You can either use MultiSnapRecyclerView in your xml layout and set LayoutManager.
 
 ```xml
 <com.takusemba.multisnaprecyclerview.MultiSnapRecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:msrv_gravity="start" or center, end
-        app:msrv_ms_per_inch="@dimen/normal_speed" // speed of scrolling through.
-        app:msrv_snap_count="2" /> items to scroll over
-
+        app:msrv_interval="2" /> items to scroll over
+        app:msrv_ms_per_inch="100" // speed of scrolling through.
 ```
 
-and simply set a layout manager.
-
-```java
-LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-multiSnapRecyclerView.setLayoutManager(layoutManager);
-multiSnapRecyclerView.setAdapter(adapter);
-multiSnapRecyclerView.setOnSnapListener(new OnSnapListener() {
-    @Override
-    public void snapped(int position) {
-        // do something with the position of the snapped view
-    }
-});
+```kt
+val layoutManager = new LinearLayoutManager(this);
+multiSnapRecyclerView.setLayoutManager(layoutManager)
 ```
 
-<br/>
-<br/>
+Or you can simply attach MultiSnapHelper to your RecyclerView.
+
+```kt
+val multiSnapHelper = MultiSnapHelper(gravity, interval, speedMsPerInch)
+multiSnapHelper.attachToRecyclerView(recyclerView)
+```
 
 ## Sample
 Clone this repo and check out the [app](https://github.com/TakuSemba/MultiSnapRecyclerView/tree/master/app) module.
-
-## Change Log
-
-### Version: 1.2.0
-
-  * control of speed when scrolling through
-
-### Version: 1.1.0
-
-  * return snapped position in OnSnapListener
-
 
 ## Author
 
