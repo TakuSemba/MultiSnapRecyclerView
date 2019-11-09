@@ -4,6 +4,8 @@ import android.util.DisplayMetrics
 import android.view.View
 import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.OrientationHelper
+import androidx.recyclerview.widget.OrientationHelper.createHorizontalHelper
+import androidx.recyclerview.widget.OrientationHelper.createVerticalHelper
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SnapHelper
 import kotlin.math.abs
@@ -67,7 +69,7 @@ class MultiSnapHelper(
     var absClosest = Integer.MAX_VALUE
 
     for (i in 0 until childCount) {
-      val child = layoutManager.getChildAt(i)!!
+      val child = layoutManager.getChildAt(i) as View
       val childPosition = layoutPositionHelper.getChildPosition(child, helper)
       val absDistance = abs(childPosition - containerPosition)
       if (helper.getDecoratedStart(child) == 0 && previousClosestPosition != 0
@@ -104,49 +106,64 @@ class MultiSnapHelper(
     }
     previousClosestPosition = if (closestPosition == RecyclerView.NO_POSITION) previousClosestPosition else closestPosition
     if (listener != null && closestPosition != RecyclerView.NO_POSITION) {
-      listener!!.snapped(closestPosition)
+      listener?.snapped(closestPosition)
     }
-    return closestChild!!
-  }
-
-  override fun findTargetSnapPosition(
-      layoutManager: RecyclerView.LayoutManager, velocityX: Int,
-      velocityY: Int
-  ): Int {
-    val helper = getOrientationHelper(layoutManager)
-    val forwardDirection = if (layoutManager.canScrollHorizontally()) velocityX > 0 else velocityY > 0
-    val firstExpectedPosition: Int
-    firstExpectedPosition = if (forwardDirection) 0 else layoutManager.itemCount - 1
-    var i = firstExpectedPosition
-    while (if (forwardDirection) i <= layoutManager.itemCount - 1 else i >= 0) {
-      val view = layoutManager.findViewByPosition(i)
-      if (view == null || layoutPositionHelper.shouldSkipTarget(view, layoutManager, helper,
-              forwardDirection)) {
-        i = if (forwardDirection) i + 1 else i - 1
-        continue
-      }
-      return if (forwardDirection) {
-        val diff = i - previousClosestPosition
-        val factor = if (diff % interval == 0) diff / interval else diff / interval + 1
-        previousClosestPosition + interval * factor
-      } else {
-        val diff = previousClosestPosition - i
-        val factor = if (diff % interval == 0) diff / interval else diff / interval + 1
-        if (previousClosestPosition == layoutManager.itemCount - 1 && previousClosestPosition % interval != 0) {
-          previousClosestPosition - previousClosestPosition % interval + interval - interval * factor
-        } else {
-          previousClosestPosition - interval * factor
-        }
-      }
-    }
-    // reached to end or start
-    return if (forwardDirection) layoutManager.itemCount - 1 else 0
+    return closestChild
   }
 
   /**
-   * Creates a scroller with [speedMsPerInch].
+   * Finds and returns the next index to snap.
    *
-   * This is almost the same as [SnapHelper.createSnapScroller] except for speed handling.
+   * For forward scrolling, this tries to find the index from the first index by incrementing.
+   * Returns the index if the valid next index is found, otherwise returns the final index which means reaching the end edge.
+   *
+   * For backward scrolling, this tries to find the index from the last index by decrementing.
+   * Returns the index if the valid next index is found, otherwise returns the final index which means reaching the start edge.
+   */
+  override fun findTargetSnapPosition(
+      layoutManager: RecyclerView.LayoutManager,
+      velocityX: Int,
+      velocityY: Int
+  ): Int {
+    val velocity = if (layoutManager.canScrollHorizontally()) velocityX else velocityY
+    val first = 0
+    val last = layoutManager.itemCount - 1
+    val range = if (0 < velocity) first..last else last downTo first
+    val progression = range step 1
+    val iterator = progression.iterator()
+
+    var index: Int = first
+    val orientationHelper = getOrientationHelper(layoutManager)
+
+    // find first valid position
+    while (iterator.hasNext()) {
+      index = iterator.next()
+      val view = layoutManager.findViewByPosition(index)
+      if (view != null &&
+          !layoutPositionHelper.shouldSkipTarget(view, layoutManager, orientationHelper,
+              0 < velocity)
+      ) {
+        break
+      }
+    }
+    // first first valid position in interval
+    if (index % interval == 0) {
+      return index
+    } else {
+      while (iterator.hasNext()) {
+        index = iterator.next()
+        if (index % interval == 0) {
+          return index
+        }
+      }
+    }
+    return index // reached the edge
+  }
+
+  /**
+   * Creates a scroller to make a smooth scroll with specified speed.
+   *
+   * This is almost the same as [SnapHelper.createSnapScroller] except for the speed handling.
    */
   override fun createScroller(
       layoutManager: RecyclerView.LayoutManager?
@@ -176,12 +193,8 @@ class MultiSnapHelper(
 
   private fun getOrientationHelper(layoutManager: RecyclerView.LayoutManager): OrientationHelper {
     return orientationHelper ?: when {
-      layoutManager.canScrollHorizontally() -> {
-        OrientationHelper.createHorizontalHelper(layoutManager)
-      }
-      layoutManager.canScrollVertically() -> {
-        OrientationHelper.createVerticalHelper(layoutManager)
-      }
+      layoutManager.canScrollHorizontally() -> createHorizontalHelper(layoutManager)
+      layoutManager.canScrollVertically() -> createVerticalHelper(layoutManager)
       else -> throw IllegalStateException("unknown orientation")
     }.also { newOrientationHelper ->
       this.orientationHelper = newOrientationHelper

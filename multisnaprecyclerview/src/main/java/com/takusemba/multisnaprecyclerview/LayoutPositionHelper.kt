@@ -12,7 +12,7 @@ interface LayoutPositionHelper {
    *
    * @return the distance to the gravitated snap position
    */
-  abstract fun getDistance(
+  fun getDistance(
       layoutManager: RecyclerView.LayoutManager,
       targetView: View,
       helper: OrientationHelper
@@ -23,7 +23,7 @@ interface LayoutPositionHelper {
    *
    * @return the gravitated snap position.
    */
-  abstract fun getContainerPosition(
+  fun getContainerPosition(
       layoutManager: RecyclerView.LayoutManager,
       helper: OrientationHelper
   ): Int
@@ -33,7 +33,7 @@ interface LayoutPositionHelper {
    *
    * @return the position of the gravitated side on the target view
    */
-  abstract fun getChildPosition(targetView: View, helper: OrientationHelper): Int
+  fun getChildPosition(targetView: View, helper: OrientationHelper): Int
 
   // TODO 後で消す
   /**
@@ -41,7 +41,7 @@ interface LayoutPositionHelper {
    *
    * @return true if the view should be skipped, otherwise false
    */
-  abstract fun shouldSkipTarget(
+  fun shouldSkipTarget(
       targetView: View,
       layoutManager: RecyclerView.LayoutManager,
       helper: OrientationHelper,
