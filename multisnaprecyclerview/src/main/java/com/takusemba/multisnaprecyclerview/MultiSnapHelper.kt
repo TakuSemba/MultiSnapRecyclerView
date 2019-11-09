@@ -75,7 +75,7 @@ class MultiSnapHelper(
     for (i in 0 until childCount) {
       val child = layoutManager.getChildAt(i) as View
       val position = layoutManager.getPosition(child)
-      val delta = getCoordinateDelta(child, helper)
+      val delta = abs(getCoordinateDelta(child, helper))
 
       // RecyclerView reached start
       if (helper.getDecoratedStart(child) == 0 &&
