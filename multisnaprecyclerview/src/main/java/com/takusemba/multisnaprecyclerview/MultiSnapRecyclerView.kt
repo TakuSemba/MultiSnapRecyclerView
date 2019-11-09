@@ -2,12 +2,10 @@ package com.takusemba.multisnaprecyclerview
 
 import android.content.Context
 import android.util.AttributeSet
-import android.util.DisplayMetrics
-import android.view.View
-import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.RecyclerView
-import kotlin.math.abs
-import kotlin.math.max
+import com.takusemba.multisnaprecyclerview.internal.CenterLayoutPositionHelper
+import com.takusemba.multisnaprecyclerview.internal.EndLayoutPositionHelper
+import com.takusemba.multisnaprecyclerview.internal.StartLayoutPositionHelper
 
 /**
  * MultiSnapRecyclerView Note that only LinearLayoutManger is supported, and reverse layout is not
@@ -25,7 +23,14 @@ class MultiSnapRecyclerView @JvmOverloads constructor(
     val snapCount = a.getInteger(R.styleable.MultiSnapRecyclerView_msrv_snap_count, 1)
     val millisecondsPerInch = a.getFloat(R.styleable.MultiSnapRecyclerView_msrv_ms_per_inch, 100f)
     a.recycle()
-    multiSnapHelper = MultiSnapHelper(context, gravity, snapCount, millisecondsPerInch)
+
+    val layoutPositionHelper = when (gravity) {
+      SnapGravity.START -> StartLayoutPositionHelper()
+      SnapGravity.END -> EndLayoutPositionHelper()
+      SnapGravity.CENTER -> CenterLayoutPositionHelper()
+    }
+    multiSnapHelper = MultiSnapHelper(context, gravity, snapCount, millisecondsPerInch,
+        layoutPositionHelper)
   }
 
   override fun onAttachedToWindow() {

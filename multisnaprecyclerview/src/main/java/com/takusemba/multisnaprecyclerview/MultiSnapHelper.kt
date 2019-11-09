@@ -4,8 +4,10 @@ import android.content.Context
 import android.util.DisplayMetrics
 import android.view.View
 import androidx.recyclerview.widget.LinearSmoothScroller
+import androidx.recyclerview.widget.OrientationHelper
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SnapHelper
+import com.takusemba.multisnaprecyclerview.internal.LayoutPositionHelper
 import kotlin.math.abs
 import kotlin.math.max
 
@@ -15,49 +17,152 @@ import kotlin.math.max
  * @param gravity gravity to which the RecyclerView snaps
  * @param snapCount the number of items to scroll over
  */
-class MultiSnapHelper(
+internal class MultiSnapHelper(
     context: Context,
     gravity: SnapGravity,
-    snapCount: Int,
-    millisecondsPerInch: Float
+    private val snapCount: Int,
+    millisecondsPerInch: Float,
+    private val layoutPositionHelper: LayoutPositionHelper
 ) : SnapHelper() {
 
   private var snapHelper: BaseSnapHelperDelegator? = null
 
-  init {
-    when (gravity) {
-      SnapGravity.CENTER -> snapHelper = CenterSnapHelperDelegator(snapCount)
-      SnapGravity.START -> snapHelper = StartSnapHelperDelegator(snapCount)
-      SnapGravity.END -> snapHelper = EndSnapHelperDelegator(snapCount)
-    }
+  /**
+   * previousClosestPosition should only be set in [findSnapView]
+   */
+  private var previousClosestPosition = 0
+  private var listener: OnSnapListener? = null
+
+  fun setListener(listener: OnSnapListener) {
+    this.listener = listener
   }
 
   override fun calculateDistanceToFinalSnap(
       layoutManager: RecyclerView.LayoutManager,
-      view: View
-  ): IntArray? {
-    return snapHelper!!.calculateDistanceToFinalSnap(layoutManager, view)
+      targetView: View
+  ): IntArray {
+    val out = IntArray(2)
+    if (layoutManager.canScrollHorizontally()) {
+      out[0] = layoutPositionHelper.getDistance(
+          layoutManager,
+          targetView,
+          OrientationHelper.createHorizontalHelper(layoutManager)
+      )
+    } else {
+      out[0] = 0
+    }
+
+    if (layoutManager.canScrollVertically()) {
+      out[1] = layoutPositionHelper.getDistance(
+          layoutManager,
+          targetView,
+          OrientationHelper.createVerticalHelper(layoutManager)
+      )
+    } else {
+      out[1] = 0
+    }
+    return out
   }
 
   override fun findSnapView(layoutManager: RecyclerView.LayoutManager): View? {
-    return snapHelper!!.findSnapView(layoutManager)
+    val helper = if (layoutManager.canScrollHorizontally()) {
+      OrientationHelper.createHorizontalHelper(layoutManager)
+    } else {
+      OrientationHelper.createVerticalHelper(layoutManager)
+    }
+    val childCount = layoutManager.childCount
+    if (childCount == 0) return null
+
+    var closestChild: View? = null
+    var closestPosition = RecyclerView.NO_POSITION
+    val containerPosition = layoutPositionHelper.getContainerPosition(layoutManager, helper)
+    var absClosest = Integer.MAX_VALUE
+
+    for (i in 0 until childCount) {
+      val child = layoutManager.getChildAt(i)!!
+      val childPosition = layoutPositionHelper.getChildPosition(child, helper)
+      val absDistance = Math.abs(childPosition - containerPosition)
+      if (helper.getDecoratedStart(child) == 0 && previousClosestPosition != 0
+          && layoutManager.getPosition(child) == 0) {
+        // RecyclerView reached start
+        closestChild = child
+        closestPosition = layoutManager.getPosition(closestChild)
+        break
+      }
+      if (helper.getDecoratedEnd(child) == helper.endAfterPadding
+          && previousClosestPosition != layoutManager.itemCount - 1
+          && layoutManager.getPosition(child) == layoutManager.itemCount - 1) {
+        // RecyclerView reached end
+        closestChild = child
+        closestPosition = layoutManager.getPosition(closestChild)
+        break
+      }
+      if (previousClosestPosition == layoutManager.getPosition(
+              child) && layoutPositionHelper.getDistance(
+              layoutManager, child, helper) == 0) {
+        // child is already set to the position.
+        closestChild = child
+        closestPosition = layoutManager.getPosition(closestChild)
+        break
+      }
+      if (layoutManager.getPosition(child) % snapCount != 0) {
+        continue
+      }
+      if (absDistance < absClosest) {
+        absClosest = absDistance
+        closestChild = child
+        closestPosition = layoutManager.getPosition(closestChild)
+      }
+    }
+    previousClosestPosition = if (closestPosition == RecyclerView.NO_POSITION) previousClosestPosition else closestPosition
+    if (listener != null && closestPosition != RecyclerView.NO_POSITION) {
+      listener!!.snapped(closestPosition)
+    }
+    return closestChild!!
   }
 
   override fun findTargetSnapPosition(
       layoutManager: RecyclerView.LayoutManager, velocityX: Int,
       velocityY: Int
   ): Int {
-    return snapHelper!!.findTargetSnapPosition(layoutManager, velocityX, velocityY)
-  }
-
-  fun setListener(listener: OnSnapListener) {
-    snapHelper!!.setListener(listener)
+    val helper = if (layoutManager.canScrollHorizontally()) {
+      OrientationHelper.createHorizontalHelper(layoutManager)
+    } else {
+      OrientationHelper.createVerticalHelper(layoutManager)
+    }
+    val forwardDirection = if (layoutManager.canScrollHorizontally()) velocityX > 0 else velocityY > 0
+    val firstExpectedPosition: Int
+    firstExpectedPosition = if (forwardDirection) 0 else layoutManager.itemCount - 1
+    var i = firstExpectedPosition
+    while (if (forwardDirection) i <= layoutManager.itemCount - 1 else i >= 0) {
+      val view = layoutManager.findViewByPosition(i)
+      if (view == null || layoutPositionHelper.shouldSkipTarget(view, layoutManager, helper,
+              forwardDirection)) {
+        i = if (forwardDirection) i + 1 else i - 1
+        continue
+      }
+      return if (forwardDirection) {
+        val diff = i - previousClosestPosition
+        val factor = if (diff % snapCount == 0) diff / snapCount else diff / snapCount + 1
+        previousClosestPosition + snapCount * factor
+      } else {
+        val diff = previousClosestPosition - i
+        val factor = if (diff % snapCount == 0) diff / snapCount else diff / snapCount + 1
+        if (previousClosestPosition == layoutManager.itemCount - 1 && previousClosestPosition % snapCount != 0) {
+          previousClosestPosition - previousClosestPosition % snapCount + snapCount - snapCount * factor
+        } else {
+          previousClosestPosition - snapCount * factor
+        }
+      }
+    }
+    // reached to end or start
+    return if (forwardDirection) layoutManager.itemCount - 1 else 0
   }
 
   private val scroller = object : LinearSmoothScroller(context) {
 
     override fun onTargetFound(targetView: View, state: RecyclerView.State, action: Action) {
-      val snapDistances = snapHelper!!.calculateDistanceToFinalSnap(layoutManager!!,
+      val snapDistances = calculateDistanceToFinalSnap(layoutManager!!,
           targetView)
       val dx = snapDistances[0]
       val dy = snapDistances[1]

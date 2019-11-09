@@ -1,34 +1,33 @@
-package com.takusemba.multisnaprecyclerview
+package com.takusemba.multisnaprecyclerview.internal
 
 import android.view.View
 import androidx.recyclerview.widget.OrientationHelper
 import androidx.recyclerview.widget.RecyclerView
 
-/**
- * [SnapHelperDelegator] for start gravity
- *
- * @param snapCount the number of items to scroll over
- */
-class StartSnapHelperDelegator(snapCount: Int) : SnapHelperDelegator(snapCount) {
+internal class CenterLayoutPositionHelper : LayoutPositionHelper {
 
   override fun getDistance(
-      layoutManager: RecyclerView.LayoutManager, targetView: View,
+      layoutManager: RecyclerView.LayoutManager,
+      targetView: View,
       helper: OrientationHelper
   ): Int {
-    val childStart = getChildPosition(targetView, helper)
-    val containerStart = getContainerPosition(layoutManager, helper)
-    return childStart - containerStart
+    val childCenter = getChildPosition(targetView, helper)
+    val containerCenter = getContainerPosition(layoutManager, helper)
+    return childCenter - containerCenter
   }
 
   override fun getContainerPosition(
       layoutManager: RecyclerView.LayoutManager,
       helper: OrientationHelper
   ): Int {
-    return helper.startAfterPadding
+    return if (layoutManager.clipToPadding)
+      helper.startAfterPadding + helper.totalSpace / 2
+    else
+      helper.end / 2
   }
 
   override fun getChildPosition(targetView: View, helper: OrientationHelper): Int {
-    return helper.getDecoratedStart(targetView)
+    return helper.getDecoratedStart(targetView) + helper.getDecoratedMeasurement(targetView) / 2
   }
 
   override fun shouldSkipTarget(
