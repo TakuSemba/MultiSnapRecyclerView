@@ -21,7 +21,8 @@ class MultiSnapHelper(
     private val speedMsPerInch: Float = DEFAULT_SPEED_MS_PER_INCH
 ) : SnapHelper() {
 
-  private val layoutPositionHelper: LayoutPositionHelper = gravity.createLayoutPositionHelper()
+  private val layoutPositionHelper: LayoutPositionHelper = createLayoutPositionHelper(gravity)
+  private var orientationHelper: OrientationHelper? = null
 
   private var recyclerView: RecyclerView? = null
 
@@ -45,34 +46,18 @@ class MultiSnapHelper(
       targetView: View
   ): IntArray {
     val out = IntArray(2)
-    if (layoutManager.canScrollHorizontally()) {
-      out[0] = layoutPositionHelper.getDistance(
-          layoutManager,
-          targetView,
-          OrientationHelper.createHorizontalHelper(layoutManager)
-      )
-    } else {
-      out[0] = 0
-    }
-
-    if (layoutManager.canScrollVertically()) {
-      out[1] = layoutPositionHelper.getDistance(
-          layoutManager,
-          targetView,
-          OrientationHelper.createVerticalHelper(layoutManager)
-      )
-    } else {
-      out[1] = 0
-    }
+    val distance = layoutPositionHelper.getDistance(
+        layoutManager,
+        targetView,
+        getOrientationHelper(layoutManager)
+    )
+    out[0] = if (layoutManager.canScrollHorizontally()) distance else 0
+    out[1] = if (layoutManager.canScrollVertically()) distance else 0
     return out
   }
 
   override fun findSnapView(layoutManager: RecyclerView.LayoutManager): View? {
-    val helper = if (layoutManager.canScrollHorizontally()) {
-      OrientationHelper.createHorizontalHelper(layoutManager)
-    } else {
-      OrientationHelper.createVerticalHelper(layoutManager)
-    }
+    val helper = getOrientationHelper(layoutManager)
     val childCount = layoutManager.childCount
     if (childCount == 0) return null
 
@@ -128,11 +113,7 @@ class MultiSnapHelper(
       layoutManager: RecyclerView.LayoutManager, velocityX: Int,
       velocityY: Int
   ): Int {
-    val helper = if (layoutManager.canScrollHorizontally()) {
-      OrientationHelper.createHorizontalHelper(layoutManager)
-    } else {
-      OrientationHelper.createVerticalHelper(layoutManager)
-    }
+    val helper = getOrientationHelper(layoutManager)
     val forwardDirection = if (layoutManager.canScrollHorizontally()) velocityX > 0 else velocityY > 0
     val firstExpectedPosition: Int
     firstExpectedPosition = if (forwardDirection) 0 else layoutManager.itemCount - 1
@@ -190,6 +171,28 @@ class MultiSnapHelper(
       override fun calculateSpeedPerPixel(displayMetrics: DisplayMetrics): Float {
         return speedMsPerInch / displayMetrics.densityDpi
       }
+    }
+  }
+
+  private fun getOrientationHelper(layoutManager: RecyclerView.LayoutManager): OrientationHelper {
+    return orientationHelper ?: when {
+      layoutManager.canScrollHorizontally() -> {
+        OrientationHelper.createHorizontalHelper(layoutManager)
+      }
+      layoutManager.canScrollVertically() -> {
+        OrientationHelper.createVerticalHelper(layoutManager)
+      }
+      else -> throw IllegalStateException("unknown orientation")
+    }.also { newOrientationHelper ->
+      this.orientationHelper = newOrientationHelper
+    }
+  }
+
+  private fun createLayoutPositionHelper(gravity: SnapGravity): LayoutPositionHelper {
+    return when (gravity) {
+      SnapGravity.CENTER -> CenterLayoutPositionHelper()
+      SnapGravity.START -> StartLayoutPositionHelper()
+      SnapGravity.END -> EndLayoutPositionHelper()
     }
   }
 
