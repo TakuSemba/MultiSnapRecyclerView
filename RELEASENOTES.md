@@ -1,6 +1,10 @@
 Release notes
 ==========
 
+Version 2.0.1 **(2019-11-9)**
+----------------------------
+ - Simplify the logic in MultiSnapHelper
+
 Version 2.0.0 **(2019-11-9)**
 ----------------------------
  - Migrate to AndroidX. After this release, your app have to be migrated to AndroidX.
