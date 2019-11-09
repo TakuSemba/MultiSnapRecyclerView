@@ -25,23 +25,7 @@ class MultiSnapRecyclerView @JvmOverloads constructor(
     val snapCount = a.getInteger(R.styleable.MultiSnapRecyclerView_msrv_snap_count, 1)
     val millisecondsPerInch = a.getFloat(R.styleable.MultiSnapRecyclerView_msrv_ms_per_inch, 100f)
     a.recycle()
-    multiSnapHelper = MultiSnapHelper(gravity, snapCount, object : LinearSmoothScroller(context) {
-
-      override fun onTargetFound(targetView: View, state: State, action: Action) {
-        val snapDistances = multiSnapHelper?.calculateDistanceToFinalSnap(layoutManager!!,
-            targetView)
-        val dx = snapDistances!![0]
-        val dy = snapDistances[1]
-        val time = calculateTimeForDeceleration(max(abs(dx), abs(dy)))
-        if (time > 0) {
-          action.update(dx, dy, time, mDecelerateInterpolator)
-        }
-      }
-
-      override fun calculateSpeedPerPixel(displayMetrics: DisplayMetrics): Float {
-        return millisecondsPerInch / displayMetrics.densityDpi
-      }
-    })
+    multiSnapHelper = MultiSnapHelper(context, gravity, snapCount, millisecondsPerInch)
   }
 
   override fun onAttachedToWindow() {

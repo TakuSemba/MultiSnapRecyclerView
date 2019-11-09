@@ -1,9 +1,13 @@
 package com.takusemba.multisnaprecyclerview
 
+import android.content.Context
+import android.util.DisplayMetrics
 import android.view.View
 import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SnapHelper
+import kotlin.math.abs
+import kotlin.math.max
 
 /**
  * Helper class that extends SnapHelper to archive snapping
@@ -12,9 +16,10 @@ import androidx.recyclerview.widget.SnapHelper
  * @param snapCount the number of items to scroll over
  */
 class MultiSnapHelper(
+    context: Context,
     gravity: SnapGravity,
     snapCount: Int,
-    private val scroller: LinearSmoothScroller
+    millisecondsPerInch: Float
 ) : SnapHelper() {
 
   private var snapHelper: BaseSnapHelperDelegator? = null
@@ -47,6 +52,24 @@ class MultiSnapHelper(
 
   fun setListener(listener: OnSnapListener) {
     snapHelper!!.setListener(listener)
+  }
+
+  private val scroller = object : LinearSmoothScroller(context) {
+
+    override fun onTargetFound(targetView: View, state: RecyclerView.State, action: Action) {
+      val snapDistances = snapHelper!!.calculateDistanceToFinalSnap(layoutManager!!,
+          targetView)
+      val dx = snapDistances[0]
+      val dy = snapDistances[1]
+      val time = calculateTimeForDeceleration(max(abs(dx), abs(dy)))
+      if (time > 0) {
+        action.update(dx, dy, time, mDecelerateInterpolator)
+      }
+    }
+
+    override fun calculateSpeedPerPixel(displayMetrics: DisplayMetrics): Float {
+      return millisecondsPerInch / displayMetrics.densityDpi
+    }
   }
 
   /**

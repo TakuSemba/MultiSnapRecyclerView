@@ -5,14 +5,14 @@ import androidx.recyclerview.widget.OrientationHelper
 import androidx.recyclerview.widget.RecyclerView
 
 /**
- * implements common methods.
+ * Implements common methods.
  *
  * @param snapCount the number of items to scroll over
  */
 abstract class SnapHelperDelegator(private val snapCount: Int) : BaseSnapHelperDelegator() {
 
   /**
-   * previousClosestPosition should only be set in [.findSnapView]
+   * previousClosestPosition should only be set in [findSnapView]
    */
   private var previousClosestPosition = 0
   private var listener: OnSnapListener? = null
@@ -27,15 +27,21 @@ abstract class SnapHelperDelegator(private val snapCount: Int) : BaseSnapHelperD
   ): IntArray {
     val out = IntArray(2)
     if (layoutManager.canScrollHorizontally()) {
-      out[0] = getDistance(layoutManager, targetView,
-          OrientationHelper.createHorizontalHelper(layoutManager))
+      out[0] = getDistance(
+          layoutManager,
+          targetView,
+          OrientationHelper.createHorizontalHelper(layoutManager)
+      )
     } else {
       out[0] = 0
     }
 
     if (layoutManager.canScrollVertically()) {
-      out[1] = getDistance(layoutManager, targetView,
-          OrientationHelper.createVerticalHelper(layoutManager))
+      out[1] = getDistance(
+          layoutManager,
+          targetView,
+          OrientationHelper.createVerticalHelper(layoutManager)
+      )
     } else {
       out[1] = 0
     }
@@ -43,11 +49,11 @@ abstract class SnapHelperDelegator(private val snapCount: Int) : BaseSnapHelperD
   }
 
   override fun findSnapView(layoutManager: RecyclerView.LayoutManager): View? {
-    val helper = if (layoutManager.canScrollHorizontally())
-      OrientationHelper.createHorizontalHelper(
-          layoutManager)
-    else
+    val helper = if (layoutManager.canScrollHorizontally()) {
+      OrientationHelper.createHorizontalHelper(layoutManager)
+    } else {
       OrientationHelper.createVerticalHelper(layoutManager)
+    }
     val childCount = layoutManager.childCount
     if (childCount == 0) return null
 
@@ -61,7 +67,7 @@ abstract class SnapHelperDelegator(private val snapCount: Int) : BaseSnapHelperD
       val childPosition = getChildPosition(child, helper)
       val absDistance = Math.abs(childPosition - containerPosition)
       if (helper.getDecoratedStart(child) == 0 && previousClosestPosition != 0
-          && layoutManager.getPosition(child!!) == 0) {
+          && layoutManager.getPosition(child) == 0) {
         // RecyclerView reached start
         closestChild = child
         closestPosition = layoutManager.getPosition(closestChild)
@@ -69,13 +75,13 @@ abstract class SnapHelperDelegator(private val snapCount: Int) : BaseSnapHelperD
       }
       if (helper.getDecoratedEnd(child) == helper.endAfterPadding
           && previousClosestPosition != layoutManager.itemCount - 1
-          && layoutManager.getPosition(child!!) == layoutManager.itemCount - 1) {
+          && layoutManager.getPosition(child) == layoutManager.itemCount - 1) {
         // RecyclerView reached end
         closestChild = child
         closestPosition = layoutManager.getPosition(closestChild)
         break
       }
-      if (previousClosestPosition == layoutManager.getPosition(child!!) && getDistance(
+      if (previousClosestPosition == layoutManager.getPosition(child) && getDistance(
               layoutManager, child, helper) == 0) {
         // child is already set to the position.
         closestChild = child
@@ -102,11 +108,11 @@ abstract class SnapHelperDelegator(private val snapCount: Int) : BaseSnapHelperD
       layoutManager: RecyclerView.LayoutManager, velocityX: Int,
       velocityY: Int
   ): Int {
-    val helper = if (layoutManager.canScrollHorizontally())
-      OrientationHelper.createHorizontalHelper(
-          layoutManager)
-    else
+    val helper = if (layoutManager.canScrollHorizontally()) {
+      OrientationHelper.createHorizontalHelper(layoutManager)
+    } else {
       OrientationHelper.createVerticalHelper(layoutManager)
+    }
     val forwardDirection = if (layoutManager.canScrollHorizontally()) velocityX > 0 else velocityY > 0
     val firstExpectedPosition: Int
     firstExpectedPosition = if (forwardDirection) 0 else layoutManager.itemCount - 1
@@ -117,18 +123,19 @@ abstract class SnapHelperDelegator(private val snapCount: Int) : BaseSnapHelperD
         i = if (forwardDirection) i + 1 else i - 1
         continue
       }
-      if (forwardDirection) {
+      return if (forwardDirection) {
         val diff = i - previousClosestPosition
         val factor = if (diff % snapCount == 0) diff / snapCount else diff / snapCount + 1
-        return previousClosestPosition + snapCount * factor
+        previousClosestPosition + snapCount * factor
       } else {
         val diff = previousClosestPosition - i
         val factor = if (diff % snapCount == 0) diff / snapCount else diff / snapCount + 1
-        return if (previousClosestPosition == layoutManager.itemCount - 1 && previousClosestPosition % snapCount != 0) {
+        if (previousClosestPosition == layoutManager.itemCount - 1 && previousClosestPosition % snapCount != 0) {
           previousClosestPosition - previousClosestPosition % snapCount + snapCount - snapCount * factor
-        } else previousClosestPosition - snapCount * factor
+        } else {
+          previousClosestPosition - snapCount * factor
+        }
       }
-      i = if (forwardDirection) i + 1 else i - 1
     }
     // reached to end or start
     return if (forwardDirection) layoutManager.itemCount - 1 else 0

@@ -1,16 +1,15 @@
 package com.takusemba.multisnaprecyclerview
 
-import androidx.recyclerview.widget.RecyclerView
 import android.view.View
+import androidx.recyclerview.widget.RecyclerView
 
 /**
- * abstract class to delegate [MultiSnapHelper] methods.
+ * Abstract class to delegate [MultiSnapHelper] methods.
  */
 abstract class BaseSnapHelperDelegator {
 
   /**
-   * delegate method of
-   * [MultiSnapHelper.calculateDistanceToFinalSnap]
+   * A delegate method of [MultiSnapHelper.calculateDistanceToFinalSnap]
    *
    * @return the distance to the gravitated snap position
    */
@@ -20,25 +19,25 @@ abstract class BaseSnapHelperDelegator {
   ): IntArray
 
   /**
-   * delegate method of [MultiSnapHelper.findSnapView]
+   * A Delegate method of [MultiSnapHelper.findSnapView]
    *
    * @return the view to snap when RecyclerView is in the idle state
    */
   abstract fun findSnapView(layoutManager: RecyclerView.LayoutManager): View?
 
   /**
-   * delegate method of
-   * [MultiSnapHelper.findTargetSnapPosition]
+   * A Delegate method of [MultiSnapHelper.findTargetSnapPosition]
    *
    * @return the view to snap when RecyclerView is fling
    */
   abstract fun findTargetSnapPosition(
-      layoutManager: RecyclerView.LayoutManager, velocityX: Int,
+      layoutManager: RecyclerView.LayoutManager,
+      velocityX: Int,
       velocityY: Int
   ): Int
 
   /**
-   * set a listener to return a position of the snapped view
+   * Sets a listener to return a position of the snapped view
    *
    * @param listener [OnSnapListener]
    */
