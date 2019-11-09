@@ -12,10 +12,11 @@ import kotlin.math.abs
 import kotlin.math.max
 
 /**
- * Helper class that extends SnapHelper to archive snapping
+ * [SnapHelper] that archives multi interval snapping.
  *
- * @param gravity gravity to which the RecyclerView snaps
- * @param interval the number of items to scroll over
+ * @param gravity the gravity to which the RecyclerView snaps.
+ * @param interval the number of items to scroll over.
+ * @param speedMsPerInch the speed of scrolling.
  */
 class MultiSnapHelper(
     gravity: SnapGravity = DEFAULT_GRAVITY,
