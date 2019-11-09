@@ -1,6 +1,10 @@
 Release notes
 ==========
 
+Version 2.0.2 **(not released yet)**
+----------------------------
+ - Update Kotlin v1.3.50.
+
 Version 2.0.1 **(2019-11-9)**
 ----------------------------
  - Simplify the logic in MultiSnapHelper
@@ -10,7 +14,7 @@ Version 2.0.0 **(2019-11-9)**
  - Migrate to AndroidX. After this release, your app have to be migrated to AndroidX.
  - Update sdk version to 28
  - Increase min sdk version to 14
- - Require Kotlin v1.3.50.
+ - Require Kotlin v1.3.11.
  - MultiSnapHelper can also be used with the normal RecyclerView.
  
  ```kt
