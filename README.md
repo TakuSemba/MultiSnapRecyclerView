@@ -16,7 +16,7 @@ dependencies {
 <img src="https://github.com/TakuSemba/MultiSnapRecyclerView/blob/master/arts/gravity.gif" align="right" width="30%">
 
 ## Features
-![Platform](http://img.shields.io/badge/platform-android-green.svg?style=flat)
+![Build Status](https://app.bitrise.io/app/a27c356998242bdf/status.svg?token=13Mi9qAas0Zm81ono5VWRw&branch=master)
 ![Download](https://api.bintray.com/packages/takusemba/maven/multisnaprecyclerview/images/download.svg)
 ![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)
 ![API](https://img.shields.io/badge/API-13%2B-brightgreen.svg?style=flat)
