@@ -33,18 +33,15 @@ class MultiSnapHelper(
   private var previousClosestPosition = 0 // set the first index
   private var listener: OnSnapListener? = null
 
-  /**
-   * Sets [OnSnapListener] to [MultiSnapHelper]
-   */
-  fun setListener(listener: OnSnapListener) {
-    this.listener = listener
-  }
-
   override fun attachToRecyclerView(recyclerView: RecyclerView?) {
     super.attachToRecyclerView(recyclerView)
     this.recyclerView = recyclerView
   }
 
+  /**
+   * Calculates the distance from [targetView].
+   * This will be calculated based off of the specified [SnapGravity].
+   */
   override fun calculateDistanceToFinalSnap(
       layoutManager: RecyclerView.LayoutManager,
       targetView: View
@@ -57,6 +54,13 @@ class MultiSnapHelper(
     )
   }
 
+  /**
+   * Finds and returns the views to snap.
+   *
+   * Iterates the all children views currently inflated and calculates the distance from base coordinate.
+   * After checking all the children views, returns the child view that has the closest distance.
+   * If all children views are invalid, just returns null.
+   */
   override fun findSnapView(layoutManager: RecyclerView.LayoutManager): View? {
     val helper = getOrientationHelper(layoutManager)
     val firstIndex = 0
@@ -199,12 +203,28 @@ class MultiSnapHelper(
     }
   }
 
+  /**
+   * Sets [OnSnapListener] to [MultiSnapHelper]
+   */
+  fun setListener(listener: OnSnapListener) {
+    this.listener = listener
+  }
+
+  /**
+   * Gets the delta between base coordinate and [targetView] coordinate.
+   * If the returned value is positive, it means [targetView] is after the base coordinate,
+   * otherwise [targetView] is before the base coordinate.
+   */
   private fun getCoordinateDelta(targetView: View, orientationHelper: OrientationHelper): Int {
     val childCoordinate = coordinateHelper.getTargetCoordinate(targetView, orientationHelper)
     val baseCoordinate = coordinateHelper.getBaseCoordinate(orientationHelper)
     return childCoordinate - baseCoordinate
   }
 
+  /**
+   * Gets [OrientationHelper] based on the layout orientation.
+   * If [OrientationHelper] was created before, it returns the one previously created.
+   */
   private fun getOrientationHelper(layoutManager: RecyclerView.LayoutManager): OrientationHelper {
     return orientationHelper ?: when {
       layoutManager.canScrollHorizontally() -> createHorizontalHelper(layoutManager)
@@ -215,6 +235,11 @@ class MultiSnapHelper(
     }
   }
 
+  /**
+   * Creates and returns [CoordinateHelper] base on the [SnapGravity]
+   *
+   * @see [CoordinateHelper]
+   */
   private fun createLayoutPositionHelper(gravity: SnapGravity): CoordinateHelper {
     return when (gravity) {
       SnapGravity.CENTER -> CenterCoordinateHelper()
