@@ -47,7 +47,7 @@ class MultiSnapHelper(
       layoutManager: RecyclerView.LayoutManager,
       targetView: View
   ): IntArray {
-    val distance = getCoordinateDelta(targetView, layoutManager)
+    val distance = getCoordinateDelta(targetView, getOrientationHelper(layoutManager))
     return intArrayOf(
         if (layoutManager.canScrollHorizontally()) distance else 0, // x-axis
         if (layoutManager.canScrollVertically()) distance else 0 // y-axis
@@ -61,15 +61,14 @@ class MultiSnapHelper(
 
     var closestChild: View? = null
     var closestPosition = RecyclerView.NO_POSITION
-    val containerPosition = coordinateHelper.getBaseCoordinate(layoutManager, helper)
     var absClosest = Integer.MAX_VALUE
 
     for (i in 0 until childCount) {
       val child = layoutManager.getChildAt(i) as View
-      val childPosition = coordinateHelper.getChildCoordinate(child, helper)
-      val absDistance = abs(childPosition - containerPosition)
-      if (helper.getDecoratedStart(child) == 0 && previousClosestPosition != 0
-          && layoutManager.getPosition(child) == 0) {
+      val delta = getCoordinateDelta(child, getOrientationHelper(layoutManager))
+      if (helper.getDecoratedStart(child) == 0 &&
+          previousClosestPosition != 0 &&
+          layoutManager.getPosition(child) == 0) {
         // RecyclerView reached start
         closestChild = child
         closestPosition = layoutManager.getPosition(closestChild)
@@ -84,7 +83,7 @@ class MultiSnapHelper(
         break
       }
       if (previousClosestPosition == layoutManager.getPosition(child) &&
-          getCoordinateDelta(child, layoutManager) == 0
+          getCoordinateDelta(child, getOrientationHelper(layoutManager)) == 0
       ) {
         // child is already set to the position.
         closestChild = child
@@ -94,8 +93,8 @@ class MultiSnapHelper(
       if (layoutManager.getPosition(child) % interval != 0) {
         continue
       }
-      if (absDistance < absClosest) {
-        absClosest = absDistance
+      if (delta < absClosest) {
+        absClosest = delta
         closestChild = child
         closestPosition = layoutManager.getPosition(closestChild)
       }
@@ -135,7 +134,7 @@ class MultiSnapHelper(
     while (iterator.hasNext()) {
       index = iterator.next()
       val view = layoutManager.findViewByPosition(index) ?: continue
-      val delta = getCoordinateDelta(view, layoutManager)
+      val delta = getCoordinateDelta(view, getOrientationHelper(layoutManager))
       if (if (0 < velocity) 0 < delta else delta < 0) {
         break
       }
@@ -185,10 +184,9 @@ class MultiSnapHelper(
     }
   }
 
-  private fun getCoordinateDelta(targetView: View, layoutManager: RecyclerView.LayoutManager): Int {
-    val helper = getOrientationHelper(layoutManager)
-    val childCoordinate = coordinateHelper.getChildCoordinate(targetView, helper)
-    val baseCoordinate = coordinateHelper.getBaseCoordinate(layoutManager, helper)
+  private fun getCoordinateDelta(targetView: View, orientationHelper: OrientationHelper): Int {
+    val childCoordinate = coordinateHelper.getTargetCoordinate(targetView, orientationHelper)
+    val baseCoordinate = coordinateHelper.getBaseCoordinate(orientationHelper)
     return childCoordinate - baseCoordinate
   }
 
