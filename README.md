@@ -43,20 +43,15 @@ What this does are clean, neat, and powerful.
 ## Usage
 There are two ways to use MultiSnapRecyclerView.
 
-You can either use MultiSnapRecyclerView in your xml layout and set LayoutManager.
+You can either use MultiSnapRecyclerView in your layout.
 
 ```xml
 <com.takusemba.multisnaprecyclerview.MultiSnapRecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:msrv_gravity="start" or center, end
-        app:msrv_interval="2" /> items to scroll over
-        app:msrv_ms_per_inch="100" // speed of scrolling through.
-```
-
-```kt
-val layoutManager = new LinearLayoutManager(this);
-multiSnapRecyclerView.setLayoutManager(layoutManager)
+        app:msrv_interval="2" items to scroll over
+        app:msrv_ms_per_inch="100" /> // speed of scrolling through.
 ```
 
 Or you can simply attach MultiSnapHelper to your RecyclerView.
