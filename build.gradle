@@ -5,8 +5,8 @@ buildscript {
       groupId: "com.github.takusemba",
       artifactId: "multisnaprecyclerview",
 
-      libraryVersionCode: 14,
-      libraryVersionName: "2.0.0",
+      libraryVersionCode: 15,
+      libraryVersionName: "2.0.1",
 
       compileSdkVersion: 28,
       minSdkVersion: 14,
