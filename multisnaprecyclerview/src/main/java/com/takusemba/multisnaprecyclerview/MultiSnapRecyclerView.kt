@@ -16,18 +16,22 @@ class MultiSnapRecyclerView @JvmOverloads constructor(
 
   private var multiSnapHelper: MultiSnapHelper? = null
 
-  private val gravity: SnapGravity
-  private val snapCount: Int
-  private val millisecondsPerInch: Float
-
   init {
     val a = context.obtainStyledAttributes(attrs, R.styleable.MultiSnapRecyclerView)
-    gravity = SnapGravity.valueOf(a.getInt(R.styleable.MultiSnapRecyclerView_msrv_gravity, 0))
-    snapCount = a.getInteger(R.styleable.MultiSnapRecyclerView_msrv_snap_count, 1)
-    millisecondsPerInch = a.getFloat(R.styleable.MultiSnapRecyclerView_msrv_ms_per_inch, 100f)
-    a.recycle()
 
-    multiSnapHelper = MultiSnapHelper(gravity, snapCount, millisecondsPerInch)
+    val gravity: SnapGravity
+    val interval: Int
+    val speedMsPerInch: Float
+
+    try {
+      gravity = SnapGravity.valueOf(a.getInt(R.styleable.MultiSnapRecyclerView_msrv_gravity, 0))
+      interval = a.getInteger(R.styleable.MultiSnapRecyclerView_msrv_interval, 1)
+      speedMsPerInch = a.getFloat(R.styleable.MultiSnapRecyclerView_msrv_speed_ms_per_inch, 100f)
+    } finally {
+      a.recycle()
+    }
+
+    multiSnapHelper = MultiSnapHelper(gravity, interval, speedMsPerInch)
     multiSnapHelper?.attachToRecyclerView(this)
   }
 

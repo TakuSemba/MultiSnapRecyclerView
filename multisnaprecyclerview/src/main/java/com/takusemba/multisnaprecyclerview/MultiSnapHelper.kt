@@ -13,11 +13,11 @@ import kotlin.math.max
  * Helper class that extends SnapHelper to archive snapping
  *
  * @param gravity gravity to which the RecyclerView snaps
- * @param snapCount the number of items to scroll over
+ * @param interval the number of items to scroll over
  */
 class MultiSnapHelper(
     gravity: SnapGravity,
-    private val snapCount: Int,
+    private val interval: Int,
     private val speedMsPerInch: Float
 ) : SnapHelper() {
 
@@ -112,7 +112,7 @@ class MultiSnapHelper(
         closestPosition = layoutManager.getPosition(closestChild)
         break
       }
-      if (layoutManager.getPosition(child) % snapCount != 0) {
+      if (layoutManager.getPosition(child) % interval != 0) {
         continue
       }
       if (absDistance < absClosest) {
@@ -150,15 +150,15 @@ class MultiSnapHelper(
       }
       return if (forwardDirection) {
         val diff = i - previousClosestPosition
-        val factor = if (diff % snapCount == 0) diff / snapCount else diff / snapCount + 1
-        previousClosestPosition + snapCount * factor
+        val factor = if (diff % interval == 0) diff / interval else diff / interval + 1
+        previousClosestPosition + interval * factor
       } else {
         val diff = previousClosestPosition - i
-        val factor = if (diff % snapCount == 0) diff / snapCount else diff / snapCount + 1
-        if (previousClosestPosition == layoutManager.itemCount - 1 && previousClosestPosition % snapCount != 0) {
-          previousClosestPosition - previousClosestPosition % snapCount + snapCount - snapCount * factor
+        val factor = if (diff % interval == 0) diff / interval else diff / interval + 1
+        if (previousClosestPosition == layoutManager.itemCount - 1 && previousClosestPosition % interval != 0) {
+          previousClosestPosition - previousClosestPosition % interval + interval - interval * factor
         } else {
-          previousClosestPosition - snapCount * factor
+          previousClosestPosition - interval * factor
         }
       }
     }

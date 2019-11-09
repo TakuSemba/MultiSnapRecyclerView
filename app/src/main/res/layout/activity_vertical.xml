@@ -13,7 +13,7 @@
     android:paddingBottom="8dp"
     android:paddingTop="8dp"
     app:msrv_gravity="start"
-    app:msrv_snap_count="1"
+    app:msrv_interval="1"
     />
 
 </FrameLayout>

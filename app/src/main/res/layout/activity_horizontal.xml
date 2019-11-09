@@ -25,8 +25,8 @@
       android:layout_height="wrap_content"
       android:layout_gravity="center_vertical"
       app:msrv_gravity="start"
-      app:msrv_ms_per_inch="@dimen/normal_speed"
-      app:msrv_snap_count="1"
+      app:msrv_interval="1"
+      app:msrv_speed_ms_per_inch="100"
       />
 
     <TextView
@@ -44,8 +44,8 @@
       android:layout_height="wrap_content"
       android:layout_gravity="center_vertical"
       app:msrv_gravity="center"
-      app:msrv_ms_per_inch="@dimen/low_speed"
-      app:msrv_snap_count="2"
+      app:msrv_interval="2"
+      app:msrv_speed_ms_per_inch="120"
       />
 
 
@@ -65,8 +65,8 @@
       android:layout_height="wrap_content"
       android:layout_gravity="center_vertical"
       app:msrv_gravity="end"
-      app:msrv_ms_per_inch="@dimen/high_speed"
-      app:msrv_snap_count="3"
+      app:msrv_interval="3"
+      app:msrv_speed_ms_per_inch="50"
       />
 
 
