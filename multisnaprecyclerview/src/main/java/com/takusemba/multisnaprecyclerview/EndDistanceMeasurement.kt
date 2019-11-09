@@ -6,16 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 
 class EndDistanceMeasurement : DistanceMeasurement {
 
-  override fun getDistance(
-      layoutManager: RecyclerView.LayoutManager, targetView: View,
-      helper: OrientationHelper
-  ): Int {
-    val childEnd = measureChildDistance(targetView, helper)
-    val containerEnd = measureContainerDistance(layoutManager, helper)
-    return childEnd - containerEnd
-  }
-
-  override fun measureContainerDistance(
+  override fun measureContainer(
       layoutManager: RecyclerView.LayoutManager,
       helper: OrientationHelper
   ): Int {
@@ -25,17 +16,7 @@ class EndDistanceMeasurement : DistanceMeasurement {
       helper.end - helper.endPadding
   }
 
-  override fun measureChildDistance(targetView: View, helper: OrientationHelper): Int {
+  override fun measureChild(targetView: View, helper: OrientationHelper): Int {
     return helper.getDecoratedStart(targetView) + helper.getDecoratedMeasurement(targetView)
-  }
-
-  override fun shouldSkipTarget(
-      targetView: View, layoutManager: RecyclerView.LayoutManager,
-      helper: OrientationHelper, forwardDirection: Boolean
-  ): Boolean {
-    return if (forwardDirection)
-      getDistance(layoutManager, targetView, helper) < 0
-    else
-      getDistance(layoutManager, targetView, helper) > 0
   }
 }

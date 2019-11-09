@@ -48,9 +48,9 @@ class MultiSnapHelper(
       targetView: View
   ): IntArray {
     val out = IntArray(2)
-    val distance = measurement.getDistance(
-        layoutManager,
+    val distance = getDeltaBetweenBaseAndChild(
         targetView,
+        layoutManager,
         getOrientationHelper(layoutManager)
     )
     out[0] = if (layoutManager.canScrollHorizontally()) distance else 0
@@ -65,12 +65,12 @@ class MultiSnapHelper(
 
     var closestChild: View? = null
     var closestPosition = RecyclerView.NO_POSITION
-    val containerPosition = measurement.measureContainerDistance(layoutManager, helper)
+    val containerPosition = measurement.measureContainer(layoutManager, helper)
     var absClosest = Integer.MAX_VALUE
 
     for (i in 0 until childCount) {
       val child = layoutManager.getChildAt(i) as View
-      val childPosition = measurement.measureChildDistance(child, helper)
+      val childPosition = measurement.measureChild(child, helper)
       val absDistance = abs(childPosition - containerPosition)
       if (helper.getDecoratedStart(child) == 0 && previousClosestPosition != 0
           && layoutManager.getPosition(child) == 0) {
@@ -88,8 +88,7 @@ class MultiSnapHelper(
         break
       }
       if (previousClosestPosition == layoutManager.getPosition(
-              child) && measurement.getDistance(
-              layoutManager, child, helper) == 0) {
+              child) && getDeltaBetweenBaseAndChild(child, layoutManager, helper) == 0) {
         // child is already set to the position.
         closestChild = child
         closestPosition = layoutManager.getPosition(closestChild)
@@ -138,11 +137,9 @@ class MultiSnapHelper(
     // find first valid position
     while (iterator.hasNext()) {
       index = iterator.next()
-      val view = layoutManager.findViewByPosition(index)
-      if (view != null &&
-          !measurement.shouldSkipTarget(view, layoutManager, orientationHelper,
-              0 < velocity)
-      ) {
+      val view = layoutManager.findViewByPosition(index) ?: continue
+      val delta = getDeltaBetweenBaseAndChild(view, layoutManager, orientationHelper)
+      if (if (0 < velocity) 0 < delta else delta < 0) {
         break
       }
     }
@@ -189,6 +186,18 @@ class MultiSnapHelper(
         return speedMsPerInch / displayMetrics.densityDpi
       }
     }
+  }
+
+  private fun getDeltaBetweenBaseAndChild(
+      targetView: View,
+      layoutManager: RecyclerView.LayoutManager,
+      orientationHelper: OrientationHelper
+  ): Int {
+
+    // coordinate
+    val childDistance = measurement.measureChild(targetView, orientationHelper)
+    val containerDistance = measurement.measureContainer(layoutManager, orientationHelper)
+    return childDistance - containerDistance
   }
 
   private fun getOrientationHelper(layoutManager: RecyclerView.LayoutManager): OrientationHelper {
