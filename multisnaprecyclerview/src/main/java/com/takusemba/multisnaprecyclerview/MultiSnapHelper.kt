@@ -78,30 +78,19 @@ class MultiSnapHelper(
       val position = layoutManager.getPosition(child)
       val delta = abs(getCoordinateDelta(child, helper))
 
-      // RecyclerView reached start
-      if (helper.getDecoratedStart(child) == 0 &&
-          previousClosestPosition != firstIndex &&
-          position == firstIndex) {
-        closestChild = child
-        closestPosition = position
-        break
-      }
+      if (delta == 0) {
+        // RecyclerView reached start
+        val reachedToStart = previousClosestPosition != firstIndex && position == firstIndex
+        // RecyclerView reached end
+        val reachedToEnd = previousClosestPosition != lastIndex && position == lastIndex
+        // child is already set to the position
+        val positionUnchanged = previousClosestPosition == position
 
-      // RecyclerView reached end
-      if (helper.getDecoratedEnd(child) == helper.endAfterPadding
-          && previousClosestPosition != lastIndex
-          && position == lastIndex) {
-        closestChild = child
-        closestPosition = position
-        break
-      }
-
-      // child is already set to the position
-      if (previousClosestPosition == position &&
-          getCoordinateDelta(child, helper) == 0) {
-        closestChild = child
-        closestPosition = position
-        break
+        if (reachedToStart || reachedToEnd || positionUnchanged) {
+          closestChild = child
+          closestPosition = position
+          break
+        }
       }
 
       // position is invalid
