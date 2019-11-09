@@ -61,6 +61,8 @@ val multiSnapHelper = MultiSnapHelper(gravity, interval, speedMsPerInch)
 multiSnapHelper.attachToRecyclerView(recyclerView)
 ```
 
+<br/>
+
 ## Sample
 Clone this repo and check out the [app](https://github.com/TakuSemba/MultiSnapRecyclerView/tree/master/app) module.
 
