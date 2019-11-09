@@ -29,7 +29,7 @@ project.afterEvaluate {
     publishing {
         publications {
             Production(MavenPublication) {
-                artifact "$buildDir/outputs/aar/cropme-release.aar"
+                artifact "$buildDir/outputs/aar/multisnaprecyclerview-release.aar"
                 groupId configs.groupId
                 artifactId configs.artifactId
                 version configs.libraryVersionName
