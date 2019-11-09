@@ -23,7 +23,7 @@ class MultiSnapHelper(
     private val speedMsPerInch: Float = DEFAULT_SPEED_MS_PER_INCH
 ) : SnapHelper() {
 
-  private val layoutPositionHelper: LayoutPositionHelper = createLayoutPositionHelper(gravity)
+  private val measurement: DistanceMeasurement = createLayoutPositionHelper(gravity)
   private var orientationHelper: OrientationHelper? = null
 
   private var recyclerView: RecyclerView? = null
@@ -48,7 +48,7 @@ class MultiSnapHelper(
       targetView: View
   ): IntArray {
     val out = IntArray(2)
-    val distance = layoutPositionHelper.getDistance(
+    val distance = measurement.getDistance(
         layoutManager,
         targetView,
         getOrientationHelper(layoutManager)
@@ -65,12 +65,12 @@ class MultiSnapHelper(
 
     var closestChild: View? = null
     var closestPosition = RecyclerView.NO_POSITION
-    val containerPosition = layoutPositionHelper.getContainerPosition(layoutManager, helper)
+    val containerPosition = measurement.measureContainerDistance(layoutManager, helper)
     var absClosest = Integer.MAX_VALUE
 
     for (i in 0 until childCount) {
       val child = layoutManager.getChildAt(i) as View
-      val childPosition = layoutPositionHelper.getChildPosition(child, helper)
+      val childPosition = measurement.measureChildDistance(child, helper)
       val absDistance = abs(childPosition - containerPosition)
       if (helper.getDecoratedStart(child) == 0 && previousClosestPosition != 0
           && layoutManager.getPosition(child) == 0) {
@@ -88,7 +88,7 @@ class MultiSnapHelper(
         break
       }
       if (previousClosestPosition == layoutManager.getPosition(
-              child) && layoutPositionHelper.getDistance(
+              child) && measurement.getDistance(
               layoutManager, child, helper) == 0) {
         // child is already set to the position.
         closestChild = child
@@ -140,7 +140,7 @@ class MultiSnapHelper(
       index = iterator.next()
       val view = layoutManager.findViewByPosition(index)
       if (view != null &&
-          !layoutPositionHelper.shouldSkipTarget(view, layoutManager, orientationHelper,
+          !measurement.shouldSkipTarget(view, layoutManager, orientationHelper,
               0 < velocity)
       ) {
         break
@@ -201,11 +201,11 @@ class MultiSnapHelper(
     }
   }
 
-  private fun createLayoutPositionHelper(gravity: SnapGravity): LayoutPositionHelper {
+  private fun createLayoutPositionHelper(gravity: SnapGravity): DistanceMeasurement {
     return when (gravity) {
-      SnapGravity.CENTER -> CenterLayoutPositionHelper()
-      SnapGravity.START -> StartLayoutPositionHelper()
-      SnapGravity.END -> EndLayoutPositionHelper()
+      SnapGravity.CENTER -> CenterDistanceMeasurement()
+      SnapGravity.START -> StartDistanceMeasurement()
+      SnapGravity.END -> EndDistanceMeasurement()
     }
   }
 

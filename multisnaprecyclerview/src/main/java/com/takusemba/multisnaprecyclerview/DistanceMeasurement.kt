@@ -4,7 +4,7 @@ import android.view.View
 import androidx.recyclerview.widget.OrientationHelper
 import androidx.recyclerview.widget.RecyclerView
 
-interface LayoutPositionHelper {
+interface DistanceMeasurement {
 
   // TODO 後で消す
   /**
@@ -23,7 +23,7 @@ interface LayoutPositionHelper {
    *
    * @return the gravitated snap position.
    */
-  fun getContainerPosition(
+  fun measureContainerDistance(
       layoutManager: RecyclerView.LayoutManager,
       helper: OrientationHelper
   ): Int
@@ -33,7 +33,7 @@ interface LayoutPositionHelper {
    *
    * @return the position of the gravitated side on the target view
    */
-  fun getChildPosition(targetView: View, helper: OrientationHelper): Int
+  fun measureChildDistance(targetView: View, helper: OrientationHelper): Int
 
   // TODO 後で消す
   /**

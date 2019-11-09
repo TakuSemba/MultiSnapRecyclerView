@@ -4,29 +4,26 @@ import android.view.View
 import androidx.recyclerview.widget.OrientationHelper
 import androidx.recyclerview.widget.RecyclerView
 
-class EndLayoutPositionHelper : LayoutPositionHelper {
+class StartDistanceMeasurement : DistanceMeasurement {
 
   override fun getDistance(
       layoutManager: RecyclerView.LayoutManager, targetView: View,
       helper: OrientationHelper
   ): Int {
-    val childEnd = getChildPosition(targetView, helper)
-    val containerEnd = getContainerPosition(layoutManager, helper)
-    return childEnd - containerEnd
+    val childStart = measureChildDistance(targetView, helper)
+    val containerStart = measureContainerDistance(layoutManager, helper)
+    return childStart - containerStart
   }
 
-  override fun getContainerPosition(
+  override fun measureContainerDistance(
       layoutManager: RecyclerView.LayoutManager,
       helper: OrientationHelper
   ): Int {
-    return if (layoutManager.clipToPadding)
-      helper.startAfterPadding + helper.totalSpace
-    else
-      helper.end - helper.endPadding
+    return helper.startAfterPadding
   }
 
-  override fun getChildPosition(targetView: View, helper: OrientationHelper): Int {
-    return helper.getDecoratedStart(targetView) + helper.getDecoratedMeasurement(targetView)
+  override fun measureChildDistance(targetView: View, helper: OrientationHelper): Int {
+    return helper.getDecoratedStart(targetView)
   }
 
   override fun shouldSkipTarget(
