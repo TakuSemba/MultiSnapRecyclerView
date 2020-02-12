@@ -78,15 +78,17 @@ class MultiSnapHelper(
       val position = layoutManager.getPosition(child)
       val delta = abs(getCoordinateDelta(child, helper))
 
-      if (delta == 0) {
-        // RecyclerView reached start
-        val reachedToStart = previousClosestPosition != firstIndex && position == firstIndex
-        // RecyclerView reached end
-        val reachedToEnd = previousClosestPosition != lastIndex && position == lastIndex
-        // child is already set to the position
-        val positionUnchanged = previousClosestPosition == position
-
-        if (reachedToStart || reachedToEnd || positionUnchanged) {
+      // RecyclerView reached start
+      if (previousClosestPosition != firstIndex && position == firstIndex) {
+        if (isReachedToTheStartEdge(child, layoutManager)) {
+          closestChild = child
+          closestPosition = position
+          break
+        }
+      }
+      // RecyclerView reached end
+      if (previousClosestPosition != lastIndex && position == lastIndex) {
+        if (isReachedToTheEndEdge(child, layoutManager)) {
           closestChild = child
           closestPosition = position
           break
@@ -139,7 +141,7 @@ class MultiSnapHelper(
     var index: Int = if (0 < velocity) firstIndex else lastIndex
 
     // find first valid position
-    // FIXME binary search will improve the speed to find the first valid position.
+    // FIXME binary search could improve the speed to find the first the valid position.
     while (iterator.hasNext()) {
       index = iterator.next()
       val view = layoutManager.findViewByPosition(index) ?: continue
@@ -236,6 +238,34 @@ class MultiSnapHelper(
       SnapGravity.START -> StartCoordinateHelper()
       SnapGravity.END -> EndCoordinateHelper()
     }
+  }
+
+  /**
+   * Check if [view] is reached to the Start edge.
+   */
+  private fun isReachedToTheStartEdge(
+      view: View,
+      layoutManager: RecyclerView.LayoutManager
+  ): Boolean {
+    val orientationHelper = getOrientationHelper(layoutManager)
+    val coordinateHelper = StartCoordinateHelper()
+    val childCoordinate = coordinateHelper.getTargetCoordinate(view, orientationHelper)
+    val baseCoordinate = coordinateHelper.getBaseCoordinate(orientationHelper)
+    return abs(childCoordinate - baseCoordinate) == 0
+  }
+
+  /**
+   * Check if [view] is reached to the End edge.
+   */
+  private fun isReachedToTheEndEdge(
+      view: View,
+      layoutManager: RecyclerView.LayoutManager
+  ): Boolean {
+    val orientationHelper = getOrientationHelper(layoutManager)
+    val coordinateHelper = EndCoordinateHelper()
+    val childCoordinate = coordinateHelper.getTargetCoordinate(view, orientationHelper)
+    val baseCoordinate = coordinateHelper.getBaseCoordinate(orientationHelper)
+    return abs(childCoordinate - baseCoordinate) == 0
   }
 
   companion object {
