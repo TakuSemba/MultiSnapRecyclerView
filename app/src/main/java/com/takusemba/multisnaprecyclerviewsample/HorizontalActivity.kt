@@ -26,8 +26,6 @@ class HorizontalActivity : AppCompatActivity() {
         "Nougat",
         "Oreo"
     )
-
-    private val COMPLEX_TITLES = Array(1000) { index -> "Item $index" }
   }
 
   override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,23 +49,5 @@ class HorizontalActivity : AppCompatActivity() {
     val thirdManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
     thirdRecyclerView.layoutManager = thirdManager
     thirdRecyclerView.adapter = thirdAdapter
-
-    val fourthAdapter = HorizontalAdapter(COMPLEX_TITLES)
-    val fourthRecyclerView = findViewById<MultiSnapRecyclerView>(R.id.fourth_recycler_view)
-    val fourthManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-    fourthRecyclerView.layoutManager = fourthManager
-    fourthRecyclerView.adapter = fourthAdapter
-
-    val fifthAdapter = HorizontalAdapter(COMPLEX_TITLES)
-    val fifthRecyclerView = findViewById<MultiSnapRecyclerView>(R.id.fifth_recycler_view)
-    val fifthManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-    fifthRecyclerView.layoutManager = fifthManager
-    fifthRecyclerView.adapter = fifthAdapter
-
-    val sixthAdapter = HorizontalAdapter(COMPLEX_TITLES)
-    val sixthRecyclerView = findViewById<MultiSnapRecyclerView>(R.id.sixth_recycler_view)
-    val sixthManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-    sixthRecyclerView.layoutManager = sixthManager
-    sixthRecyclerView.adapter = sixthAdapter
   }
 }

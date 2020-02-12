@@ -6,9 +6,9 @@
   >
 
   <LinearLayout
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:orientation="vertical"
     >
 
     <TextView
@@ -21,12 +21,12 @@
 
     <com.takusemba.multisnaprecyclerview.MultiSnapRecyclerView
       android:id="@+id/first_recycler_view"
-      android:orientation="horizontal"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:layout_gravity="center_vertical"
-      android:layout_marginBottom="8dp"
       android:layout_marginTop="8dp"
+      android:layout_marginBottom="8dp"
+      android:orientation="horizontal"
       app:msrv_interval="1"
       app:msrv_speed_ms_per_inch="100"
       />
@@ -41,17 +41,16 @@
 
     <com.takusemba.multisnaprecyclerview.MultiSnapRecyclerView
       android:id="@+id/second_recycler_view"
-      android:orientation="horizontal"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:layout_gravity="center_vertical"
-      android:layout_marginBottom="8dp"
       android:layout_marginTop="8dp"
+      android:layout_marginBottom="8dp"
+      android:orientation="horizontal"
       app:msrv_gravity="center"
       app:msrv_interval="2"
       app:msrv_speed_ms_per_inch="120"
       />
-
 
     <TextView
       android:layout_width="wrap_content"
@@ -63,81 +62,16 @@
 
     <com.takusemba.multisnaprecyclerview.MultiSnapRecyclerView
       android:id="@+id/third_recycler_view"
-      android:orientation="horizontal"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:layout_gravity="center_vertical"
-      android:layout_marginBottom="8dp"
       android:layout_marginTop="8dp"
+      android:layout_marginBottom="8dp"
+      android:orientation="horizontal"
       app:msrv_gravity="end"
       app:msrv_interval="3"
       app:msrv_speed_ms_per_inch="50"
       />
-
-    <TextView
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_margin="8dp"
-      android:text="Gravity: Start, SnapCount: 10, timePerInch: 100ms"
-      android:textSize="16sp"
-      />
-
-    <com.takusemba.multisnaprecyclerview.MultiSnapRecyclerView
-      android:id="@+id/fourth_recycler_view"
-      android:orientation="horizontal"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:layout_gravity="center_vertical"
-      android:layout_marginBottom="8dp"
-      android:layout_marginTop="8dp"
-      app:msrv_gravity="start"
-      app:msrv_interval="10"
-      app:msrv_speed_ms_per_inch="100"
-      />
-
-    <TextView
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_margin="8dp"
-      android:text="Gravity: Start, SnapCount: 10, timePerInch: 100ms"
-      android:textSize="16sp"
-      />
-
-    <com.takusemba.multisnaprecyclerview.MultiSnapRecyclerView
-      android:id="@+id/fifth_recycler_view"
-      android:orientation="horizontal"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:layout_gravity="center_vertical"
-      android:layout_marginBottom="8dp"
-      android:layout_marginTop="8dp"
-      app:msrv_gravity="center"
-      app:msrv_interval="10"
-      app:msrv_speed_ms_per_inch="100"
-      />
-
-    <TextView
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_margin="8dp"
-      android:text="Gravity: Start, SnapCount: 10, timePerInch: 100ms"
-      android:textSize="16sp"
-      />
-
-    <com.takusemba.multisnaprecyclerview.MultiSnapRecyclerView
-      android:id="@+id/sixth_recycler_view"
-      android:orientation="horizontal"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:layout_gravity="center_vertical"
-      android:layout_marginBottom="8dp"
-      android:layout_marginTop="8dp"
-      app:msrv_gravity="end"
-      app:msrv_interval="10"
-      app:msrv_speed_ms_per_inch="100"
-      />
-
-
   </LinearLayout>
 
 </ScrollView>
