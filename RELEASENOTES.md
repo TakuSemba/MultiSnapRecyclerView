@@ -1,9 +1,10 @@
 Release notes
 ==========
 
-Version 2.0.2 **(not released yet)**
+Version 2.0.2 **(2020-2-12)**
 ----------------------------
  - Update Kotlin v1.3.50.
+ - Fix not snapping to the both edge.
 
 Version 2.0.1 **(2019-11-9)**
 ----------------------------
