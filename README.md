@@ -31,7 +31,6 @@ What this does are clean, neat, and powerful.
 - [x] listener to be called when snapped.
 - [x] sample code.
 - [ ] support reverse layout.
-- [ ] test code.
 
 <strong>Make sure to use LinearManger.</strong> Other managers are not supported.
 
