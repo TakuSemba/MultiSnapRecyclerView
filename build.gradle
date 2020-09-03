@@ -2,11 +2,9 @@
 
 buildscript {
   ext.configs = [
+      version: "2.0.3",
       groupId: "com.github.takusemba",
       artifactId: "multisnaprecyclerview",
-
-      libraryVersionCode: 16,
-      libraryVersionName: "2.0.2",
 
       compileSdkVersion: 30,
       minSdkVersion: 14,
