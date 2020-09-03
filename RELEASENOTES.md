@@ -1,6 +1,11 @@
 Release notes
 ==========
 
+Version 2.0.4 **(2020-xx-xx)**
+----------------------------
+ - Update dependencies.
+ - 
+
 Version 2.0.2 **(2020-2-12)**
 ----------------------------
  - Update Kotlin v1.3.50.
