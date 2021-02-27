@@ -2,9 +2,18 @@
 
 buildscript {
   ext.configs = [
-      version: "2.0.3",
       groupId: "com.github.takusemba",
       artifactId: "multisnaprecyclerview",
+      description: "Android library for multiple snapping of RecyclerView.",
+      siteUrl: "https://github.com/TakuSemba/MultiSnapRecyclerView",
+      gitUrl: "https://github.com/TakuSemba/MultiSnapRecyclerView.git",
+      developerId: "takusemba",
+      developerName: "TakuSemba",
+      developerEmail: "takusemba.ele@gmail.com",
+      licenseName: "The Apache Software License, Version 2.0",
+      licenseUrl: "http://www.apache.org/licenses/LICENSE-2.0.txt",
+
+      version: "2.0.3",
 
       compileSdkVersion: 30,
       minSdkVersion: 14,
