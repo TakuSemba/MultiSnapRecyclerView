@@ -13,19 +13,17 @@ buildscript {
       licenseName: "The Apache Software License, Version 2.0",
       licenseUrl: "http://www.apache.org/licenses/LICENSE-2.0.txt",
 
-      version: "2.0.3",
+      version: "2.0.4",
 
       compileSdkVersion: 30,
       minSdkVersion: 14,
       targetSdkVersion: 30,
   ]
   ext.versions = [
-      kotlin: '1.4.0',
-      androidx: '1.0.0',
+      kotlin: '1.4.31',
   ]
   ext.deps = [
       androidPlugin: "com.android.tools.build:gradle:4.0.1",
-      bintrayPlugin: "com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4",
       kotlin: [
           plugin: "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin}",
           stdlib: "org.jetbrains.kotlin:kotlin-stdlib:${versions.kotlin}",
@@ -42,7 +40,6 @@ buildscript {
   }
   dependencies {
     classpath deps.androidPlugin
-    classpath deps.bintrayPlugin
     classpath deps.kotlin.plugin
   }
 }
